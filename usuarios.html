@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Usuarios - Biblioteca</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background-color: #1f4e79;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        .contenedor {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #1f4e79;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .boton {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #1f4e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+            .boton:hover {
+                background-color: #163a5c;
+            }
+
+        footer {
+            margin-top: 40px;
+            background-color: #163a5c;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>📚 Biblioteca</h1>
+        <p>Gestión de usuarios</p>
+    </header>
+
+    <nav>
+        <a href="index.html">Inicio</a>
+        <a href="libros.html">Libros</a>
+        <a href="usuarios.html" class="activo">Usuarios</a>
+        <a href="prestamos.html">Préstamos</a>
+    </nav>
+
+    <main>
+
+        <div class="contenedor">
+
+            <h2>Usuarios</h2>
+
+            <p>
+                Desde esta sección podremos administrar los usuarios
+                registrados en la biblioteca.
+            </p>
+
+            <div class="acciones">
+                <a href="#" class="boton">Registrar usuario</a>
+                <a href="#" class="boton">Ver usuarios</a>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        Biblioteca © 2026
+    </footer>
+
+</body>
+</html>
