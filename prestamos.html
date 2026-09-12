@@ -1,10 +1,13 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Préstamos - Biblioteca</title>
+
+    <link rel="stylesheet" href="css/estilos.css">
 
     <style>
         * {
@@ -26,7 +29,7 @@
         }
 
         main {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 30px auto;
             padding: 20px;
         }
@@ -36,31 +39,107 @@
             padding: 25px;
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
         }
 
         h2 {
             color: #1f4e79;
         }
 
-        .acciones {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-top: 25px;
+        .formulario {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            margin-top: 20px;
         }
 
-        .boton {
-            display: inline-block;
+        .campo {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .campo label {
+                font-weight: bold;
+                margin-bottom: 6px;
+            }
+
+            .campo select,
+            .campo input {
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 6px;
+                font-size: 15px;
+            }
+
+        .boton-principal {
+            grid-column: 1 / -1;
             padding: 12px 20px;
             background-color: #1f4e79;
             color: white;
-            text-decoration: none;
+            border: none;
             border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
         }
 
-            .boton:hover {
+            .boton-principal:hover {
                 background-color: #163a5c;
             }
+
+        .estado {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .tabla-contenedor {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1f4e79;
+            color: white;
+        }
+
+        .boton-devolver {
+            padding: 7px 12px;
+            background-color: #2e7d32;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .boton-devolver:hover {
+                background-color: #1b5e20;
+            }
+
+        .estado-prestado {
+            font-weight: bold;
+        }
+
+        .estado-devuelto {
+            font-weight: bold;
+        }
+
+        .mensaje-vacio {
+            text-align: center;
+            padding: 20px;
+        }
 
         footer {
             margin-top: 40px;
@@ -69,8 +148,17 @@
             text-align: center;
             padding: 15px;
         }
+
+        @media (max-width: 700px) {
+            .formulario {
+                grid-template-columns: 1fr;
+            }
+
+            .boton-principal {
+                grid-column: auto;
+            }
+        }
     </style>
-    <link rel="stylesheet" href="css/estilos.css">
 </head>
 
 <body>
@@ -89,28 +177,840 @@
 
     <main>
 
+        <!-- ========================================= -->
+        <!-- NUEVO PRÉSTAMO -->
+        <!-- ========================================= -->
+
         <div class="contenedor">
 
-            <h2>Préstamos</h2>
+            <h2>📖 Nuevo préstamo</h2>
 
-            <p>
-                Desde esta sección podremos registrar y controlar
-                los préstamos y devoluciones de libros.
+            <div class="formulario">
+
+                <div class="campo">
+                    <label for="seleccionarLibro">
+                        Libro
+                    </label>
+
+                    <select id="seleccionarLibro">
+                        <option value="">
+                            Cargando libros...
+                        </option>
+                    </select>
+                </div>
+
+
+                <div class="campo">
+                    <label for="seleccionarUsuario">
+                        Usuario
+                    </label>
+
+                    <select id="seleccionarUsuario">
+                        <option value="">
+                            Cargando usuarios...
+                        </option>
+                    </select>
+                </div>
+
+
+                <div class="campo">
+                    <label for="fechaPrestamo">
+                        Fecha del préstamo
+                    </label>
+
+                    <input type="date"
+                           id="fechaPrestamo">
+                </div>
+
+
+                <div class="campo">
+                    <label for="fechaDevolucion">
+                        Fecha prevista de devolución
+                    </label>
+
+                    <input type="date"
+                           id="fechaDevolucion">
+                </div>
+
+
+                <button class="boton-principal"
+                        onclick="registrarPrestamo()">
+
+                    💾 Registrar préstamo
+
+                </button>
+
+            </div>
+
+            <div id="mensaje"
+                 class="estado">
+            </div>
+
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- LISTA DE PRÉSTAMOS -->
+        <!-- ========================================= -->
+
+        <div class="contenedor">
+
+            <h2>📋 Préstamos registrados</h2>
+
+            <p id="cantidadPrestamos">
+                Cantidad de préstamos: 0
             </p>
 
-            <div class="acciones">
-                <a href="#" class="boton">Nuevo préstamo</a>
-                <a href="#" class="boton">Ver préstamos</a>
-                <a href="#" class="boton">Devoluciones</a>
+            <div class="tabla-contenedor">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Libro</th>
+                            <th>Usuario</th>
+                            <th>Fecha préstamo</th>
+                            <th>Devolución</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="listaPrestamos">
+
+                        <tr>
+                            <td colspan="7" class="mensaje-vacio">
+                                Cargando préstamos...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
             </div>
 
         </div>
 
     </main>
 
+
     <footer>
         Biblioteca © 2026
     </footer>
+
+
+    <script>
+
+const URL_BIBLIOTECA =
+            "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
+
+        let libros = [];
+
+        let usuarios = [];
+
+        let prestamos = [];
+
+
+        // =========================================
+        // CARGAR DATOS
+        // =========================================
+
+        async function cargarDatos() {
+
+            const mensaje = document.getElementById("mensaje");
+
+            mensaje.textContent = "Cargando datos...";
+
+            try {
+
+                const controlador = new AbortController();
+
+                // Si Google no responde en 15 segundos, cancelamos
+                const temporizador = setTimeout(() => {
+                    controlador.abort();
+                }, 15000);
+
+                const respuesta = await fetch(
+                    URL_BIBLIOTECA + "?t=" + Date.now(),
+                    {
+                        method: "GET",
+                        cache: "no-store",
+                        signal: controlador.signal
+                    }
+                );
+
+                clearTimeout(temporizador);
+
+                if (!respuesta.ok) {
+                    throw new Error(
+                        "Google Apps Script respondió con error HTTP " +
+                        respuesta.status
+                    );
+                }
+
+                const texto = await respuesta.text();
+
+                console.log("Respuesta de Google:");
+                console.log(texto);
+
+                if (!texto) {
+                    throw new Error("Google no devolvió ningún dato.");
+                }
+
+                let datos;
+
+                try {
+                    datos = JSON.parse(texto);
+                } catch (error) {
+                    console.error("Respuesta recibida:");
+                    console.error(texto);
+
+                    throw new Error(
+                        "Google devolvió una respuesta que no es JSON."
+                    );
+                }
+
+                if (!datos.ok) {
+                    throw new Error(
+                        datos.mensaje || "Google informó un error."
+                    );
+                }
+
+                libros = datos.libros || [];
+                usuarios = datos.usuarios || [];
+                prestamos = datos.prestamos || [];
+
+                console.log("Libros:", libros.length);
+                console.log("Usuarios:", usuarios.length);
+                console.log("Préstamos:", prestamos.length);
+
+                cargarLibros();
+                cargarUsuarios();
+                mostrarPrestamos();
+
+                mensaje.textContent = "";
+
+            } catch (error) {
+
+                console.error(error);
+
+                if (error.name === "AbortError") {
+
+                    mensaje.textContent =
+                        "Google Apps Script tardó demasiado en responder. " +
+                        "Presioná F5 para intentar nuevamente.";
+
+                } else {
+
+                    mensaje.textContent =
+                        "Error al cargar los datos: " +
+                        error.message;
+                }
+            }
+        }
+
+        // =========================================
+        // CARGAR LIBROS EN SELECT
+        // =========================================
+
+        function cargarLibros() {
+
+            const select =
+                document.getElementById(
+                    "seleccionarLibro"
+                );
+
+
+            select.innerHTML =
+                '<option value="">Seleccione un libro</option>';
+
+
+            libros.forEach(function(libro) {
+
+                const estaPrestado =
+                    prestamos.some(function(prestamo) {
+
+                        return (
+                            String(prestamo.libro) ===
+                            String(libro.id) &&
+                            String(prestamo.estado)
+                                .toLowerCase() ===
+                            "prestado"
+                        );
+
+                    });
+
+
+                if (!estaPrestado) {
+
+                    const opcion =
+                        document.createElement("option");
+
+
+                    opcion.value =
+                        libro.id;
+
+
+                    opcion.textContent =
+                        libro.titulo +
+                        " - " +
+                        libro.autor;
+
+
+                    select.appendChild(opcion);
+
+                }
+
+            });
+
+        }
+
+
+        // =========================================
+        // CARGAR USUARIOS EN SELECT
+        // =========================================
+
+        function cargarUsuarios() {
+
+            const select =
+                document.getElementById(
+                    "seleccionarUsuario"
+                );
+
+
+            select.innerHTML =
+                '<option value="">Seleccione un usuario</option>';
+
+
+            usuarios.forEach(function(usuario) {
+
+                const opcion =
+                    document.createElement("option");
+
+
+                opcion.value =
+                    usuario.dni;
+
+
+                opcion.textContent =
+                    usuario.nombre +
+                    " " +
+                    usuario.apellido +
+                    " - DNI: " +
+                    usuario.dni;
+
+
+                select.appendChild(opcion);
+
+            });
+
+        }
+
+
+        // =========================================
+        // MOSTRAR PRÉSTAMOS
+        // =========================================
+
+        function mostrarPrestamos() {
+
+            const lista =
+                document.getElementById(
+                    "listaPrestamos"
+                );
+
+
+            const cantidad =
+                document.getElementById(
+                    "cantidadPrestamos"
+                );
+
+
+            cantidad.textContent =
+                "Cantidad de préstamos: " +
+                prestamos.length;
+
+
+            lista.innerHTML = "";
+
+
+            if (prestamos.length === 0) {
+
+                lista.innerHTML = `
+                    <tr>
+                        <td colspan="7"
+                            class="mensaje-vacio">
+                            No hay préstamos registrados.
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            prestamos.forEach(function(prestamo) {
+
+                const fila =
+                    document.createElement("tr");
+
+
+                const libro =
+                    libros.find(function(l) {
+
+                        return String(l.id) ===
+                            String(prestamo.libro);
+
+                    });
+
+
+                const usuario =
+                    usuarios.find(function(u) {
+
+                        return String(u.dni) ===
+                            String(prestamo.dni);
+
+                    });
+
+
+                const nombreLibro =
+                    libro
+                        ? libro.titulo
+                        : prestamo.libro;
+
+
+                const nombreUsuario =
+                    usuario
+                        ? usuario.nombre +
+                          " " +
+                          usuario.apellido
+                        : prestamo.usuario;
+
+
+                let boton = "";
+
+
+                if (
+                    String(prestamo.estado)
+                        .toLowerCase() ===
+                    "prestado"
+                ) {
+
+                    boton = `
+                        <button
+                            class="boton-devolver"
+                            onclick="devolverPrestamo('${prestamo.id}')">
+                            ↩️ Devolver
+                        </button>
+                    `;
+
+                } else {
+
+                    boton = "—";
+
+                }
+
+
+                fila.innerHTML = `
+
+                    <td>
+                        ${escaparHTML(prestamo.id)}
+                    </td>
+
+                    <td>
+                        ${escaparHTML(nombreLibro)}
+                    </td>
+
+                    <td>
+                        ${escaparHTML(nombreUsuario)}
+                    </td>
+
+                    <td>
+                        ${formatearFecha(
+                            prestamo.fechaPrestamo
+                        )}
+                    </td>
+
+                    <td>
+                        ${formatearFecha(
+                            prestamo.fechaDevolucion
+                        )}
+                    </td>
+
+                    <td>
+                        ${escaparHTML(
+                            prestamo.estado
+                        )}
+                    </td>
+
+                    <td>
+                        ${boton}
+                    </td>
+
+                `;
+
+
+                lista.appendChild(fila);
+
+            });
+
+        }
+
+
+        // =========================================
+        // REGISTRAR PRÉSTAMO
+        // =========================================
+
+        async function registrarPrestamo() {
+
+            const libro =
+                document.getElementById(
+                    "seleccionarLibro"
+                ).value;
+
+
+            const dni =
+                document.getElementById(
+                    "seleccionarUsuario"
+                ).value;
+
+
+            const fechaPrestamo =
+                document.getElementById(
+                    "fechaPrestamo"
+                ).value;
+
+
+            const fechaDevolucion =
+                document.getElementById(
+                    "fechaDevolucion"
+                ).value;
+
+
+            if (
+                !libro ||
+                !dni ||
+                !fechaPrestamo ||
+                !fechaDevolucion
+            ) {
+
+                mostrarMensaje(
+                    "Completá todos los campos.",
+                    true
+                );
+
+                return;
+
+            }
+
+
+            const usuario =
+                usuarios.find(function(u) {
+
+                    return String(u.dni) ===
+                        String(dni);
+
+                });
+
+
+            const libroSeleccionado =
+                libros.find(function(l) {
+
+                    return String(l.id) ===
+                        String(libro);
+
+                });
+
+
+            if (!usuario || !libroSeleccionado) {
+
+                mostrarMensaje(
+                    "No se pudo identificar el libro o usuario.",
+                    true
+                );
+
+                return;
+
+            }
+
+
+            try {
+
+                const controlador = new AbortController();
+
+                const temporizador = setTimeout(() => {
+                    controlador.abort();
+                }, 20000);
+
+                let respuesta;
+
+                try {
+
+                    respuesta = await fetch(
+                        URL_BIBLIOTECA,
+                        {
+                            method: "POST",
+                            body: JSON.stringify({
+                                accion: "agregarPrestamo",
+                                libro: libro,
+                                usuario: usuario.nombre + " " + usuario.apellido,
+                                dni: usuario.dni,
+                                fechaPrestamo: fechaPrestamo,
+                                fechaDevolucion: fechaDevolucion
+                            }),
+                            signal: controlador.signal
+                        }
+                    );
+
+                } finally {
+
+                    clearTimeout(temporizador);
+
+                }
+
+
+                const resultado =
+                    await respuesta.json();
+
+
+                if (!resultado.ok) {
+
+                    throw new Error(
+                        resultado.mensaje
+                    );
+
+                }
+
+
+                mostrarMensaje(
+                    "Préstamo registrado correctamente.",
+                    false
+                );
+
+
+                document.getElementById(
+                    "seleccionarLibro"
+                ).value = "";
+
+
+                document.getElementById(
+                    "seleccionarUsuario"
+                ).value = "";
+
+
+                document.getElementById(
+                    "fechaPrestamo"
+                ).value = "";
+
+
+                document.getElementById(
+                    "fechaDevolucion"
+                ).value = "";
+
+
+                await cargarDatos();
+
+
+            } catch (error) {
+
+                mostrarMensaje(
+                    "Error: " + error.message,
+                    true
+                );
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        // =========================================
+        // DEVOLVER PRÉSTAMO
+        // =========================================
+
+        async function devolverPrestamo(id) {
+
+            if (
+                !confirm(
+                    "¿Confirmás que este libro fue devuelto?"
+                )
+            ) {
+
+                return;
+
+            }
+
+
+            try {
+
+                const respuesta =
+                    await fetch(
+                        URL_BIBLIOTECA,
+                        {
+                            method: "POST",
+
+                            body: JSON.stringify({
+
+                                accion:
+                                    "devolverPrestamo",
+
+                                id:
+                                    id
+
+                            })
+
+                        }
+                    );
+
+
+                const resultado =
+                    await respuesta.json();
+
+
+                if (!resultado.ok) {
+
+                    throw new Error(
+                        resultado.mensaje
+                    );
+
+                }
+
+
+                mostrarMensaje(
+                    "Libro devuelto correctamente.",
+                    false
+                );
+
+
+                await cargarDatos();
+
+
+            } catch (error) {
+
+                mostrarMensaje(
+                    "Error: " + error.message,
+                    true
+                );
+
+                console.error(error);
+
+            }
+
+        }
+
+
+        // =========================================
+        // MENSAJE
+        // =========================================
+
+        function mostrarMensaje(
+            texto,
+            error
+        ) {
+
+            const elemento =
+                document.getElementById(
+                    "mensaje"
+                );
+
+
+            elemento.textContent =
+                texto;
+
+
+            elemento.style.display =
+                "block";
+
+
+            elemento.style.backgroundColor =
+                error
+                    ? "#ffebee"
+                    : "#e8f5e9";
+
+
+            elemento.style.color =
+                error
+                    ? "#c62828"
+                    : "#2e7d32";
+
+        }
+
+
+        // =========================================
+        // FORMATO DE FECHA
+        // =========================================
+
+        function formatearFecha(fecha) {
+
+            if (!fecha) {
+                return "";
+            }
+
+
+            const texto =
+                String(fecha);
+
+
+            if (
+                texto.includes("T")
+            ) {
+
+                return texto.split("T")[0];
+
+            }
+
+
+            return texto;
+
+        }
+
+
+        // =========================================
+        // SEGURIDAD HTML
+        // =========================================
+
+        function escaparHTML(texto) {
+
+            return String(texto ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =========================================
+        // INICIO
+        // =========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                const hoy =
+                    new Date()
+                        .toISOString()
+                        .split("T")[0];
+
+
+                document.getElementById(
+                    "fechaPrestamo"
+                ).value = hoy;
+
+
+                cargarDatos();
+
+            }
+        );
+
+    </script>
 
 </body>
 </html>
