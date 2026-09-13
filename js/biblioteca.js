@@ -7,6 +7,52 @@ const URL_BIBLIOTECA =
 
 let libros = [];
 
+// =====================================================
+// OBTENER ROL DEL USUARIO
+// =====================================================
+
+function obtenerRolUsuario() {
+
+    const datosUsuario =
+        localStorage.getItem("usuarioSistema");
+
+    if (!datosUsuario) {
+        return null;
+    }
+
+    try {
+
+        const usuario =
+            JSON.parse(datosUsuario);
+
+        return usuario.rol || null;
+
+    } catch (error) {
+
+        console.error(
+            "Error al leer el usuario:",
+            error
+        );
+
+        return null;
+    }
+}
+
+
+// =====================================================
+// VERIFICAR PERMISOS PARA GESTIONAR LIBROS
+// =====================================================
+
+function puedeGestionarLibros() {
+
+    const rol = obtenerRolUsuario();
+
+    return (
+        rol === "Administrador" ||
+        rol === "Bibliotecario"
+    );
+
+}
 
 // =====================================================
 // CARGAR LIBROS
@@ -177,6 +223,9 @@ function mostrarLibros(listaLibros) {
 
             <td>
 
+    ${
+            puedeGestionarLibros()
+                ? `
                 <button
                     class="boton-eliminar"
                     onclick="eliminarLibro('${escaparHTML(libro.id)}')">
@@ -184,8 +233,13 @@ function mostrarLibros(listaLibros) {
                     🗑️ Eliminar
 
                 </button>
+              `
+                : `
+                <span>—</span>
+              `
+    }
 
-            </td>
+</td>
 
         `;
 
@@ -256,7 +310,14 @@ function filtrarLibros() {
 // =====================================================
 
 async function agregarLibro() {
+    if (!puedeGestionarLibros()) {
 
+        alert(
+            "⛔ No tenés permiso para agregar libros."
+        );
+
+        return;
+    }
     const titulo =
         document.getElementById("tituloLibro").value.trim();
 
@@ -396,7 +457,14 @@ async function agregarLibro() {
 // =====================================================
 
 async function eliminarLibro(id) {
+    if (!puedeGestionarLibros()) {
 
+        alert(
+            "⛔ No tenés permiso para eliminar libros."
+        );
+
+        return;
+    }
     const confirmar =
         confirm(
             "¿Seguro que querés eliminar este libro?"
@@ -514,6 +582,56 @@ document.addEventListener(
     function () {
 
         console.log("Página de libros cargada.");
+        console.log("===== PRUEBA DE ROLES =====");
+
+        const datosUsuario =
+            localStorage.getItem("usuarioSistema");
+
+        console.log("DATOS USUARIO:", datosUsuario);
+
+        if (datosUsuario) {
+
+            const usuario =
+                JSON.parse(datosUsuario);
+
+            console.log("USUARIO:", usuario.usuario);
+            console.log("NOMBRE:", usuario.nombre);
+            console.log("ROL:", usuario.rol);
+
+        } else {
+
+            console.log("NO HAY USUARIO EN LOCALSTORAGE");
+
+        }
+
+        // =========================================
+        // CONTROLAR FORMULARIO SEGÚN EL ROL
+        // =========================================
+
+        const seccionAgregar =
+            document.getElementById("seccionAgregarLibro");
+
+        if (seccionAgregar) {
+
+            if (!puedeGestionarLibros()) {
+
+                seccionAgregar.style.display = "none";
+
+                console.log(
+                    "Formulario de agregar libro oculto."
+                );
+
+            } else {
+
+                seccionAgregar.style.display = "block";
+
+                console.log(
+                    "Usuario autorizado para gestionar libros."
+                );
+
+            }
+
+        }
 
         cargarLibros();
 
