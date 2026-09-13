@@ -98,29 +98,92 @@
             width: 100%;
             overflow-x: auto;
             margin-top: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: white;
         }
 
         table {
             width: 100%;
-            min-width: 850px;
-            border-collapse: collapse;
+            min-width: 950px;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 15px;
         }
 
         th,
         td {
-            padding: 12px;
+            padding: 9px 12px;
             border-bottom: 1px solid #ddd;
             text-align: left;
             white-space: nowrap;
         }
 
+        /* CABECERA FIJA */
         th {
+            position: sticky;
+            top: 0;
+            z-index: 10;
             background-color: #1f4e79;
             color: white;
+            font-weight: bold;
+            padding: 11px 12px;
         }
 
-        tr:hover {
-            background-color: #f5f5f5;
+        /* FILAS ALTERNADAS */
+        tbody tr:nth-child(even) {
+            background-color: #f7f9fb;
+        }
+
+        /* EFECTO AL PASAR EL MOUSE */
+        tbody tr:hover {
+            background-color: #e8f1f8;
+        }
+
+        /* TÍTULO */
+        th:nth-child(1),
+        td:nth-child(1) {
+            min-width: 260px;
+        }
+
+        /* AUTOR */
+        th:nth-child(2),
+        td:nth-child(2) {
+            min-width: 210px;
+        }
+
+        /* EDITORIAL */
+        th:nth-child(3),
+        td:nth-child(3) {
+            min-width: 170px;
+        }
+
+        /* AÑO */
+        th:nth-child(4),
+        td:nth-child(4) {
+            min-width: 70px;
+            text-align: center;
+        }
+
+        /* ISBN */
+        th:nth-child(5),
+        td:nth-child(5) {
+            min-width: 140px;
+        }
+
+        /* CATEGORÍA */
+        th:nth-child(6),
+        td:nth-child(6) {
+            min-width: 140px;
+        }
+
+        /* ACCIÓN */
+        th:nth-child(7),
+        td:nth-child(7) {
+            min-width: 100px;
+            text-align: center;
         }
 
         .cantidad-libros {
@@ -131,38 +194,43 @@
 
         .boton-eliminar {
             background-color: #d32f2f;
-            padding: 8px 12px;
-            font-size: 14px;
+            padding: 7px 10px;
+            font-size: 13px;
         }
 
             .boton-eliminar:hover {
                 background-color: #b71c1c;
             }
 
-        .exito {
-            margin-top: 15px;
-            padding: 12px;
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border-radius: 6px;
-            display: none;
-        }
+        @media (max-width: 700px) {
 
-        .error {
-            margin-top: 15px;
-            padding: 12px;
-            background-color: #ffebee;
-            color: #c62828;
-            border-radius: 6px;
-            display: none;
-        }
+            main {
+                padding: 10px;
+                margin: 15px auto;
+            }
 
-        footer {
-            margin-top: 40px;
-            background-color: #163a5c;
-            color: white;
-            text-align: center;
-            padding: 15px;
+            .tarjeta {
+                padding: 18px;
+            }
+
+            .buscador input {
+                font-size: 16px;
+                padding: 13px;
+            }
+
+            .tabla-contenedor {
+                max-height: 500px;
+            }
+
+            table {
+                min-width: 950px;
+                font-size: 14px;
+            }
+
+            th,
+            td {
+                padding: 8px 10px;
+            }
         }
 
         @media (max-width: 700px) {
