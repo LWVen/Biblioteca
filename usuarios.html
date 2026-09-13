@@ -262,7 +262,13 @@
 </head>
 
 <body>
+    <script>
+        const usuarioSistema = localStorage.getItem("usuarioSistema");
 
+        if (!usuarioSistema) {
+            window.location.href = "login.html";
+        }
+    </script>
     <header>
         <h1>📚 Biblioteca</h1>
         <p>Gestión de usuarios</p>
@@ -704,12 +710,12 @@
             if (filtrados.length === 0) {
 
                 tabla.innerHTML = `
-                        <tr>
-                            <td colspan="8" class="sin-usuarios">
-                                No hay usuarios registrados.
-                            </td>
-                        </tr>
-                    `;
+                            <tr>
+                                <td colspan="8" class="sin-usuarios">
+                                    No hay usuarios registrados.
+                                </td>
+                            </tr>
+                        `;
 
                 return;
 
@@ -729,56 +735,56 @@
 
                 fila.innerHTML = `
 
-                        <td>
-                            ${indice + 1}
-                        </td>
+                            <td>
+                                ${indice + 1}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.nombre)}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.nombre)}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.apellido)}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.apellido)}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.dni)}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.dni)}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.curso || "-")}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.curso || "-")}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.telefono || "-")}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.telefono || "-")}
+                            </td>
 
-                        <td>
-                            ${escapeHTML(usuario.tipo)}
-                        </td>
+                            <td>
+                                ${escapeHTML(usuario.tipo)}
+                            </td>
 
-                        <td>
+                            <td>
 
-                            <button
-                                class="btn-editar"
-                                onclick="editarUsuario(${indice})">
+                                <button
+                                    class="btn-editar"
+                                    onclick="editarUsuario(${indice})">
 
-                                ✏️ Editar
+                                    ✏️ Editar
 
-                            </button>
+                                </button>
 
 
-                            <button
-                                class="btn-eliminar"
-                                onclick="eliminarUsuario(${indice})">
+                                <button
+                                    class="btn-eliminar"
+                                    onclick="eliminarUsuario(${indice})">
 
-                                🗑️ Eliminar
+                                    🗑️ Eliminar
 
-                            </button>
+                                </button>
 
-                        </td>
+                            </td>
 
-                    `;
+                        `;
 
 
                 tabla.appendChild(fila);

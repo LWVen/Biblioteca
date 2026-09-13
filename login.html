@@ -1,0 +1,229 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Biblioteca - Iniciar sesión</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: white;
+            padding: 35px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .titulo {
+            text-align: center;
+            color: #1976d2;
+            margin-bottom: 5px;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background: #1976d2;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background: #125ca1;
+            }
+
+        #mensaje {
+            margin-top: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d32f2f;
+        }
+
+        .exito {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-box">
+
+            <h1 class="titulo">📚 Biblioteca</h1>
+
+            <p class="subtitulo">
+                Iniciar sesión
+            </p>
+
+            <form onsubmit="iniciarSesion(event)">
+
+                <label for="usuario">
+                    Usuario
+                </label>
+
+                <input type="text"
+                       id="usuario"
+                       placeholder="Ingrese su usuario"
+                       required
+                       autocomplete="username">
+
+                <label for="contrasena">
+                    Contraseña
+                </label>
+
+                <input type="password"
+                       id="contrasena"
+                       placeholder="Ingrese su contraseña"
+                       required
+                       autocomplete="current-password">
+
+                <button type="submit">
+                    Iniciar sesión
+                </button>
+
+            </form>
+
+            <div id="mensaje"></div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+const URL_BIBLIOTECA =
+"https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
+
+
+async function iniciarSesion(event) {
+
+    event.preventDefault();
+
+    const usuario =
+        document.getElementById("usuario").value.trim();
+
+    const contrasena =
+        document.getElementById("contrasena").value.trim();
+
+    const mensaje =
+        document.getElementById("mensaje");
+
+    mensaje.className = "";
+    mensaje.textContent = "Verificando...";
+
+    try {
+
+        const respuesta = await fetch(URL_BIBLIOTECA, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "text/plain;charset=utf-8"
+            },
+
+            body: JSON.stringify({
+
+                accion: "login",
+
+                usuario: usuario,
+
+                contrasena: contrasena
+
+            })
+
+        });
+
+        const resultado = await respuesta.json();
+
+        if (!resultado.ok) {
+
+            mensaje.className = "error";
+
+            mensaje.textContent =
+                resultado.mensaje || "Usuario o contraseña incorrectos.";
+
+            return;
+        }
+
+        // Guardamos los datos de la sesión
+        localStorage.setItem(
+            "usuarioSistema",
+            JSON.stringify(resultado.usuario)
+        );
+
+        mensaje.className = "exito";
+        mensaje.textContent = "Acceso correcto. Ingresando...";
+
+        setTimeout(() => {
+
+            window.location.href = "index.html";
+
+        }, 500);
+
+    } catch (error) {
+
+        console.error(error);
+
+        mensaje.className = "error";
+
+        mensaje.textContent =
+            "No se pudo conectar con el servidor.";
+
+    }
+
+}
+
+    </script>
+
+</body>
+</html>

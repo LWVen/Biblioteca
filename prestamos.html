@@ -162,7 +162,13 @@
 </head>
 
 <body>
+    <script>
+        const usuarioSistema = localStorage.getItem("usuarioSistema");
 
+        if (!usuarioSistema) {
+            window.location.href = "login.html";
+        }
+    </script>
     <header>
         <h1>📚 Biblioteca</h1>
         <p>Gestión de préstamos</p>
@@ -305,7 +311,7 @@
 
     <script>
 
-const URL_BIBLIOTECA =
+        const URL_BIBLIOTECA =
             "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
 
         let libros = [];
@@ -429,10 +435,10 @@ const URL_BIBLIOTECA =
                 '<option value="">Seleccione un libro</option>';
 
 
-            libros.forEach(function(libro) {
+            libros.forEach(function (libro) {
 
                 const estaPrestado =
-                    prestamos.some(function(prestamo) {
+                    prestamos.some(function (prestamo) {
 
                         return (
                             String(prestamo.libro) ===
@@ -486,7 +492,7 @@ const URL_BIBLIOTECA =
                 '<option value="">Seleccione un usuario</option>';
 
 
-            usuarios.forEach(function(usuario) {
+            usuarios.forEach(function (usuario) {
 
                 const opcion =
                     document.createElement("option");
@@ -540,27 +546,27 @@ const URL_BIBLIOTECA =
             if (prestamos.length === 0) {
 
                 lista.innerHTML = `
-                    <tr>
-                        <td colspan="7"
-                            class="mensaje-vacio">
-                            No hay préstamos registrados.
-                        </td>
-                    </tr>
-                `;
+                        <tr>
+                            <td colspan="7"
+                                class="mensaje-vacio">
+                                No hay préstamos registrados.
+                            </td>
+                        </tr>
+                    `;
 
                 return;
 
             }
 
 
-            prestamos.forEach(function(prestamo) {
+            prestamos.forEach(function (prestamo) {
 
                 const fila =
                     document.createElement("tr");
 
 
                 const libro =
-                    libros.find(function(l) {
+                    libros.find(function (l) {
 
                         return String(l.id) ===
                             String(prestamo.libro);
@@ -569,7 +575,7 @@ const URL_BIBLIOTECA =
 
 
                 const usuario =
-                    usuarios.find(function(u) {
+                    usuarios.find(function (u) {
 
                         return String(u.dni) ===
                             String(prestamo.dni);
@@ -586,8 +592,8 @@ const URL_BIBLIOTECA =
                 const nombreUsuario =
                     usuario
                         ? usuario.nombre +
-                          " " +
-                          usuario.apellido
+                        " " +
+                        usuario.apellido
                         : prestamo.usuario;
 
 
@@ -601,12 +607,12 @@ const URL_BIBLIOTECA =
                 ) {
 
                     boton = `
-                        <button
-                            class="boton-devolver"
-                            onclick="devolverPrestamo('${prestamo.id}')">
-                            ↩️ Devolver
-                        </button>
-                    `;
+                            <button
+                                class="boton-devolver"
+                                onclick="devolverPrestamo('${prestamo.id}')">
+                                ↩️ Devolver
+                            </button>
+                        `;
 
                 } else {
 
@@ -617,41 +623,41 @@ const URL_BIBLIOTECA =
 
                 fila.innerHTML = `
 
-                    <td>
-                        ${escaparHTML(prestamo.id)}
-                    </td>
+                        <td>
+                            ${escaparHTML(prestamo.id)}
+                        </td>
 
-                    <td>
-                        ${escaparHTML(nombreLibro)}
-                    </td>
+                        <td>
+                            ${escaparHTML(nombreLibro)}
+                        </td>
 
-                    <td>
-                        ${escaparHTML(nombreUsuario)}
-                    </td>
+                        <td>
+                            ${escaparHTML(nombreUsuario)}
+                        </td>
 
-                    <td>
-                        ${formatearFecha(
-                            prestamo.fechaPrestamo
-                        )}
-                    </td>
+                        <td>
+                            ${formatearFecha(
+                    prestamo.fechaPrestamo
+                )}
+                        </td>
 
-                    <td>
-                        ${formatearFecha(
-                            prestamo.fechaDevolucion
-                        )}
-                    </td>
+                        <td>
+                            ${formatearFecha(
+                    prestamo.fechaDevolucion
+                )}
+                        </td>
 
-                    <td>
-                        ${escaparHTML(
-                            prestamo.estado
-                        )}
-                    </td>
+                        <td>
+                            ${escaparHTML(
+                    prestamo.estado
+                )}
+                        </td>
 
-                    <td>
-                        ${boton}
-                    </td>
+                        <td>
+                            ${boton}
+                        </td>
 
-                `;
+                    `;
 
 
                 lista.appendChild(fila);
@@ -709,7 +715,7 @@ const URL_BIBLIOTECA =
 
 
             const usuario =
-                usuarios.find(function(u) {
+                usuarios.find(function (u) {
 
                     return String(u.dni) ===
                         String(dni);
@@ -718,7 +724,7 @@ const URL_BIBLIOTECA =
 
 
             const libroSeleccionado =
-                libros.find(function(l) {
+                libros.find(function (l) {
 
                     return String(l.id) ===
                         String(libro);
@@ -992,7 +998,7 @@ const URL_BIBLIOTECA =
 
         document.addEventListener(
             "DOMContentLoaded",
-            function() {
+            function () {
 
                 const hoy =
                     new Date()

@@ -189,12 +189,43 @@
 </head>
 
 <body>
+    <script>
+        const usuarioSistema = localStorage.getItem("usuarioSistema");
+
+        if (!usuarioSistema) {
+            window.location.href = "login.html";
+        }
+    </script>
+    <div id="usuarioLogueado" style="
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: #f1f5f9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+">
+        <span id="datosUsuario"></span>
+
+        <button onclick="cerrarSesion()" style="
+        border: none;
+        background: #dc3545;
+        color: white;
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    ">
+            Cerrar sesión
+        </button>
+    </div>
 
     <header>
         <h1>📚 Biblioteca</h1>
         <p>Registro y consulta de libros</p>
     </header>
-
 
     <nav>
         <a href="index.html" class="activo">Inicio</a>
@@ -242,6 +273,21 @@
         </p>
 
     </footer>
+    <script>
+        const datosUsuario = JSON.parse(
+            localStorage.getItem("usuarioSistema")
+        );
 
+        if (datosUsuario) {
+            document.getElementById("datosUsuario").innerHTML =
+                "👤 <strong>" + datosUsuario.nombre + "</strong>" +
+                " · " + datosUsuario.rol;
+        }
+
+        function cerrarSesion() {
+            localStorage.removeItem("usuarioSistema");
+            window.location.href = "login.html";
+        }
+    </script>
 </body>
 </html>
