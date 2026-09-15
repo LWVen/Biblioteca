@@ -7,6 +7,9 @@
     <title>Libros - Biblioteca</title>
 
     <style>
+        .ocultar-no-admin {
+            display: none;
+        }
         * {
             box-sizing: border-box;
         }
@@ -279,10 +282,51 @@
     <nav>
         <a href="index.html">Inicio</a>
         <a href="libros.html" class="activo">Libros</a>
-        <a href="usuarios.html">Usuarios</a>
-        <a href="prestamos.html">Préstamos</a>
+        <a href="usuarios.html" id="menuUsuarios" class="ocultar-no-admin">Usuarios</a>
+        <a href="prestamos.html" id="menuPrestamos" class="ocultar-no-admin">Préstamos</a>
     </nav>
+    <script>
 
+        const datosUsuarioMenu =
+            JSON.parse(localStorage.getItem("usuarioSistema"));
+
+        const rolActualMenu =
+            String(datosUsuarioMenu?.rol || "")
+                .trim()
+                .toLowerCase();
+
+        const menuUsuarios =
+            document.getElementById("menuUsuarios");
+
+        const menuPrestamos =
+            document.getElementById("menuPrestamos");
+
+
+        // USUARIOS: solamente Administrador
+
+        if (
+            rolActualMenu === "administrador" ||
+            rolActualMenu === "admin"
+        ) {
+            if (menuUsuarios) {
+                menuUsuarios.classList.remove("ocultar-no-admin");
+            }
+        }
+
+
+        // PRÉSTAMOS: Administrador + Bibliotecario
+
+        if (
+            rolActualMenu === "administrador" ||
+            rolActualMenu === "admin" ||
+            rolActualMenu === "bibliotecario"
+        ) {
+            if (menuPrestamos) {
+                menuPrestamos.classList.remove("ocultar-no-admin");
+            }
+        }
+
+    </script>
     <main class="contenedor">
 
         <section class="tarjeta">

@@ -166,7 +166,25 @@
         const usuarioSistema = localStorage.getItem("usuarioSistema");
 
         if (!usuarioSistema) {
+
             window.location.href = "login.html";
+
+        } else {
+
+            const datosUsuario = JSON.parse(usuarioSistema);
+
+            const rol = String(datosUsuario.rol || "")
+                .trim()
+                .toLowerCase();
+
+            if (
+                rol !== "administrador" &&
+                rol !== "admin" &&
+                rol !== "bibliotecario"
+            ) {
+                window.location.href = "index.html";
+            }
+
         }
     </script>
     <header>
@@ -176,9 +194,18 @@
 
     <nav>
         <a href="index.html">Inicio</a>
+
         <a href="libros.html">Libros</a>
-        <a href="usuarios.html">Usuarios</a>
-        <a href="prestamos.html" class="activo">Préstamos</a>
+
+        <a href="usuarios.html"
+           id="menuUsuarios"
+           style="display: none;">
+            Usuarios
+        </a>
+
+        <a href="prestamos.html" class="activo">
+            Préstamos
+        </a>
     </nav>
 
     <main>
@@ -546,13 +573,13 @@
             if (prestamos.length === 0) {
 
                 lista.innerHTML = `
-                        <tr>
-                            <td colspan="7"
-                                class="mensaje-vacio">
-                                No hay préstamos registrados.
-                            </td>
-                        </tr>
-                    `;
+                            <tr>
+                                <td colspan="7"
+                                    class="mensaje-vacio">
+                                    No hay préstamos registrados.
+                                </td>
+                            </tr>
+                        `;
 
                 return;
 
@@ -607,12 +634,12 @@
                 ) {
 
                     boton = `
-                            <button
-                                class="boton-devolver"
-                                onclick="devolverPrestamo('${prestamo.id}')">
-                                ↩️ Devolver
-                            </button>
-                        `;
+                                <button
+                                    class="boton-devolver"
+                                    onclick="devolverPrestamo('${prestamo.id}')">
+                                    ↩️ Devolver
+                                </button>
+                            `;
 
                 } else {
 
@@ -623,41 +650,41 @@
 
                 fila.innerHTML = `
 
-                        <td>
-                            ${escaparHTML(prestamo.id)}
-                        </td>
+                            <td>
+                                ${escaparHTML(prestamo.id)}
+                            </td>
 
-                        <td>
-                            ${escaparHTML(nombreLibro)}
-                        </td>
+                            <td>
+                                ${escaparHTML(nombreLibro)}
+                            </td>
 
-                        <td>
-                            ${escaparHTML(nombreUsuario)}
-                        </td>
+                            <td>
+                                ${escaparHTML(nombreUsuario)}
+                            </td>
 
-                        <td>
-                            ${formatearFecha(
+                            <td>
+                                ${formatearFecha(
                     prestamo.fechaPrestamo
                 )}
-                        </td>
+                            </td>
 
-                        <td>
-                            ${formatearFecha(
+                            <td>
+                                ${formatearFecha(
                     prestamo.fechaDevolucion
                 )}
-                        </td>
+                            </td>
 
-                        <td>
-                            ${escaparHTML(
+                            <td>
+                                ${escaparHTML(
                     prestamo.estado
                 )}
-                        </td>
+                            </td>
 
-                        <td>
-                            ${boton}
-                        </td>
+                            <td>
+                                ${boton}
+                            </td>
 
-                    `;
+                        `;
 
 
                 lista.appendChild(fila);
@@ -1017,6 +1044,33 @@
         );
 
     </script>
+    <script>
 
+        const datosUsuarioMenu = JSON.parse(
+            localStorage.getItem("usuarioSistema")
+        );
+
+        const rolActualMenu = String(
+            datosUsuarioMenu.rol || ""
+        )
+            .trim()
+            .toLowerCase();
+
+        const menuUsuarios =
+            document.getElementById("menuUsuarios");
+
+        console.log("ROL EN PRÉSTAMOS:", rolActualMenu);
+
+        // Usuarios solamente para Administrador
+        if (
+            rolActualMenu === "administrador" ||
+            rolActualMenu === "admin"
+        ) {
+            if (menuUsuarios) {
+                menuUsuarios.style.display = "inline-block";
+            }
+        }
+
+    </script>
 </body>
 </html>

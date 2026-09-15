@@ -1,12 +1,39 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
+    <script>
+
+        const usuarioSistema = localStorage.getItem("usuarioSistema");
+
+        if (!usuarioSistema) {
+
+            window.location.href = "login.html";
+
+        } else {
+
+            const datosUsuario = JSON.parse(usuarioSistema);
+
+            const rol = String(datosUsuario.rol || "")
+                .trim()
+                .toLowerCase();
+
+            if (rol !== "administrador" && rol !== "admin") {
+
+                window.location.href = "index.html";
+
+            }
+
+        }
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Usuarios - Biblioteca</title>
 
     <style>
+        .ocultar-no-admin {
+            display: none;
+        }
         * {
             box-sizing: border-box;
         }
@@ -262,29 +289,24 @@
 </head>
 
 <body>
-    <script>
-        const usuarioSistema = localStorage.getItem("usuarioSistema");
 
-        if (!usuarioSistema) {
-            window.location.href = "login.html";
-        }
-    </script>
     <header>
         <h1>📚 Biblioteca</h1>
         <p>Gestión de usuarios</p>
     </header>
 
-
     <nav>
         <a href="index.html">Inicio</a>
         <a href="libros.html">Libros</a>
         <a href="usuarios.html" class="activo">Usuarios</a>
-        <a href="prestamos.html">Préstamos</a>
+        <a href="prestamos.html"
+           id="menuPrestamos"
+           class="ocultar-no-admin">
+            Préstamos
+        </a>
     </nav>
 
-
     <main>
-
 
         <!-- =========================================
              FORMULARIO
@@ -1289,7 +1311,33 @@
         // =========================================
 
         cargarUsuarios();
+        const datosUsuario = localStorage.getItem("usuarioSistema");
 
+        if (!datosUsuario) {
+            window.location.href = "login.html";
+        } else {
+
+            const usuario = JSON.parse(datosUsuario);
+
+            const rolActual = String(usuario.rol || "")
+                .trim()
+                .toLowerCase();
+
+            console.log("ROL PARA EL MENÚ:", rolActual);
+
+            const menuPrestamos =
+                document.getElementById("menuPrestamos");
+
+            // Solo Administrador puede ver Préstamos
+            if (
+                rolActual === "administrador" ||
+                rolActual === "admin"
+            ) {
+                if (menuPrestamos) {
+                    menuPrestamos.classList.remove("ocultar-no-admin");
+                }
+            }
+        }
     </script>
 
 </body>
