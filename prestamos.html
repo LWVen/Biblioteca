@@ -338,8 +338,8 @@
 
     <script>
 
-        const URL_BIBLIOTECA =
-            "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
+const URL_BIBLIOTECA =
+    "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
 
         let libros = [];
 
@@ -495,6 +495,8 @@
 
 
                     select.appendChild(opcion);
+
+                    console.log("Libro agregado al selector:", opcion.value, opcion.textContent);
 
                 }
 
@@ -724,20 +726,40 @@
                 ).value;
 
 
-            if (
-                !libro ||
-                !dni ||
-                !fechaPrestamo ||
-                !fechaDevolucion
-            ) {
+            // if (
+            //     !libro ||
+            //     !dni ||
+            //     !fechaPrestamo ||
+            //     !fechaDevolucion
+            // ) {
 
-                mostrarMensaje(
-                    "Completá todos los campos.",
-                    true
-                );
+            //     mostrarMensaje(
+            //         "Completá todos los campos.",
+            //         true
+            //     );
 
+            //     return;
+
+            // }
+
+            if (!libro) {
+                mostrarMensaje("Falta seleccionar el libro.", true);
                 return;
+            }
 
+            if (!dni) {
+                mostrarMensaje("Falta seleccionar el usuario.", true);
+                return;
+            }
+
+            if (!fechaPrestamo) {
+                mostrarMensaje("Falta la fecha del préstamo.", true);
+                return;
+            }
+
+            if (!fechaDevolucion) {
+                mostrarMensaje("Falta la fecha de devolución.", true);
+                return;
             }
 
 
