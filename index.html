@@ -1,4 +1,5 @@
 ﻿<!DOCTYPE html>
+
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -7,9 +8,11 @@
     <title>Biblioteca</title>
 
     <style>
+
         .ocultar-no-admin {
             display: none;
         }
+
         * {
             box-sizing: border-box;
         }
@@ -22,10 +25,10 @@
         }
 
         header {
-            background-color: #1976d2;
+            background-color: #1f4e79;
             color: white;
             text-align: center;
-            padding: 25px;
+            padding: 20px;
         }
 
         .contenedor {
@@ -43,7 +46,7 @@
         }
 
         h2 {
-            color: #1976d2;
+            color: #1f4e79;
         }
 
         h3 {
@@ -77,57 +80,78 @@
     </style>
 
     <link rel="stylesheet" href="css/estilos.css">
+
 </head>
 
 <body>
 
     <!-- VERIFICAR SESIÓN -->
-    <script>
-        const usuarioSistema = localStorage.getItem("usuarioSistema");
 
-        if (!usuarioSistema) {
-            window.location.href = "login.html";
-        }
+    <script>
+
+            const usuarioSistema =
+                localStorage.getItem("usuarioSistema");
+
+            if (!usuarioSistema) {
+                window.location.href = "login.html";
+            }
+
     </script>
 
+
     <!-- USUARIO LOGUEADO -->
+
     <div id="usuarioLogueado" style="
-        position: absolute;
-        top: 15px;
-        right: 20px;
-        background: #f1f5f9;
-        padding: 10px 15px;
-        border-radius: 8px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-    ">
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: #f1f5f9;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+">
 
         <span id="datosUsuario"></span>
 
         <button onclick="cerrarSesion()" style="
-            border: none;
-            background: #dc3545;
-            color: white;
-            padding: 7px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        ">
+        border: none;
+        background: #dc3545;
+        color: white;
+        padding: 7px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+    ">
             Cerrar sesión
         </button>
 
     </div>
 
+
+    <!-- ENCABEZADO -->
+
     <header>
+
         <h1>📚 Biblioteca</h1>
+
         <p>Registro y consulta de libros</p>
+
     </header>
 
+
     <!-- MENÚ -->
+
     <nav>
-        <a href="index.html" class="activo">Inicio</a>
-        <a href="libros.html">Libros</a>
+
+        <a href="index.html" class="activo">
+            Inicio
+        </a>
+
+        <a href="libros.html">
+            Libros
+        </a>
 
         <a href="usuarios.html"
            id="menuUsuarios"
@@ -140,7 +164,11 @@
            class="ocultar-no-admin">
             Préstamos
         </a>
+
     </nav>
+
+
+    <!-- CONTENIDO -->
 
     <div class="contenedor">
 
@@ -153,6 +181,7 @@
                 de la biblioteca y acceder a las diferentes secciones.
             </p>
 
+
             <h3>📚 ¿Qué podés hacer?</h3>
 
             <p>
@@ -160,20 +189,30 @@
                 información disponible en la biblioteca.
             </p>
 
+
             <!-- TEXTO SOLO PARA ADMINISTRADOR -->
+
             <p id="textoUsuarios">
+
                 En <strong>Usuarios</strong> podrás administrar los
                 usuarios de la biblioteca.
+
             </p>
 
+
             <p id="textoPrestamos">
+
                 En <strong>Préstamos</strong> podrás registrar y
                 controlar los préstamos y devoluciones.
+
             </p>
 
         </section>
 
     </div>
+
+
+    <!-- PIE -->
 
     <footer>
 
@@ -183,96 +222,128 @@
 
     </footer>
 
+
+    <!-- JAVASCRIPT -->
+
     <script>
 
-        // ==========================================
-        // DATOS DEL USUARIO
-        // ==========================================
-
-        const datosUsuario = JSON.parse(
-            localStorage.getItem("usuarioSistema")
-        );
-
-        if (!datosUsuario) {
-
-            window.location.href = "login.html";
-
-        } else {
-
-            // Mostrar usuario y rol
-
-            document.getElementById("datosUsuario").innerHTML =
-                "👤 <strong>" + datosUsuario.nombre + "</strong>" +
-                " · " + datosUsuario.rol;
-
-
-            // Obtener rol
-
-            const rolActual = String(datosUsuario.rol || "")
-                .trim()
-                .toLowerCase();
-
-            console.log("ROL ACTUAL:", rolActual);
-
-
             // ==========================================
-            // MENÚ USUARIOS
-            // Solo Administrador
+            // DATOS DEL USUARIO
             // ==========================================
 
-            const menuUsuarios =
-                document.getElementById("menuUsuarios");
+const datosUsuario = JSON.parse(
+    localStorage.getItem("usuarioSistema") || "{}"
+);
 
-            if (
-                rolActual === "administrador" ||
-                rolActual === "admin"
-            ) {
 
-                if (menuUsuarios) {
-                    menuUsuarios.classList.remove("ocultar-no-admin");
+            if (!datosUsuario) {
+
+                window.location.href = "login.html";
+
+            } else {
+
+                // Mostrar usuario y rol
+
+                const elementoDatosUsuario =
+                    document.getElementById("datosUsuario");
+
+                if (elementoDatosUsuario) {
+
+                    elementoDatosUsuario.innerHTML =
+                        "👤 <strong>" +
+                        datosUsuario.nombre +
+                        "</strong>" +
+                        " · " +
+                        datosUsuario.rol;
+
+                }
+
+                // Obtener rol
+
+                const rolActual =
+                    String(datosUsuario.rol || "")
+                        .trim()
+                        .toLowerCase();
+
+
+                console.log(
+                    "ROL ACTUAL:",
+                    rolActual
+                );
+
+
+                // ==========================================
+                // MENÚ USUARIOS
+                // Solo Administrador
+                // ==========================================
+
+                const menuUsuarios =
+                    document.getElementById("menuUsuarios");
+
+
+                if (
+                    rolActual === "administrador" ||
+                    rolActual === "admin"
+                ) {
+
+                    if (menuUsuarios) {
+
+                        menuUsuarios.classList.remove(
+                            "ocultar-no-admin"
+                        );
+
+                    }
+
+                }
+
+
+                // ==========================================
+                // MENÚ PRÉSTAMOS
+                // Administrador + Bibliotecario
+                // ==========================================
+
+                const menuPrestamos =
+                    document.getElementById("menuPrestamos");
+
+
+                if (
+                    rolActual === "administrador" ||
+                    rolActual === "admin" ||
+                    rolActual === "bibliotecario"
+                ) {
+
+                    if (menuPrestamos) {
+
+                        menuPrestamos.classList.remove(
+                            "ocultar-no-admin"
+                        );
+
+                    }
+
                 }
 
             }
 
 
             // ==========================================
-            // MENÚ PRÉSTAMOS
-            // Administrador + Bibliotecario
+            // CERRAR SESIÓN
             // ==========================================
 
-            const menuPrestamos =
-                document.getElementById("menuPrestamos");
+            function cerrarSesion() {
 
-            if (
-                rolActual === "administrador" ||
-                rolActual === "admin" ||
-                rolActual === "bibliotecario"
-            ) {
+                console.log(
+                    "CERRANDO SESIÓN..."
+                );
 
-                if (menuPrestamos) {
-                    menuPrestamos.classList.remove("ocultar-no-admin");
-                }
+                localStorage.removeItem(
+                    "usuarioSistema"
+                );
+
+                window.location.href =
+                    "login.html";
 
             }
-
-        }
-
-
-        // ==========================================
-        // CERRAR SESIÓN
-        // ==========================================
-
-        function cerrarSesion() {
-
-            console.log("CERRANDO SESIÓN...");
-
-            localStorage.removeItem("usuarioSistema");
-
-            window.location.href = "login.html";
-
-        }
 
     </script>
-
 </body>
 </html>

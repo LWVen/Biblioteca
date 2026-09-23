@@ -33,33 +33,34 @@
             text-align: center;
             width: 100%;
         }
+
         /* =========================================
-           MENÚ
-        ========================================= */
+   MENÚ
+========================================= */
 
         nav {
             background-color: #163a5c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            padding: 0;
-            width: 100%;
+            padding: 12px;
+            text-align: center;
         }
 
             nav a {
+                display: inline-block;
                 color: white;
                 text-decoration: none;
-                padding: 14px 20px;
-                display: block;
+                margin: 0 5px;
+                padding: 8px 15px;
+                border-radius: 6px;
+                font-weight: bold;
             }
 
                 nav a:hover {
-                    background-color: #245d8f;
+                    background-color: rgba(255, 255, 255, 0.15);
                 }
 
                 nav a.activo {
-                    background-color: #1976d2;
+                    background-color: white;
+                    color: #163a5c;
                 }
 
         .ocultar-no-admin {
@@ -589,6 +590,10 @@
 
                             <option value="Personal">
                                 Personal
+                            </option>
+
+                            <option value="Directivo">
+                                Directivo
                             </option>
 
                             <option value="Otro">

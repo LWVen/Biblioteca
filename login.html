@@ -14,7 +14,7 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f1f5f9;
+            background: #163a5c;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -105,7 +105,7 @@
                 Iniciar sesión
             </p>
 
-            <form onsubmit="iniciarSesion(event)">
+            <form id="formLogin">
 
                 <label for="usuario">
                     Usuario
@@ -145,81 +145,133 @@ const URL_BIBLIOTECA =
 "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
 
 
-async function iniciarSesion(event) {
+const formulario =
+            document.querySelector("#formLogin");
 
-    event.preventDefault();
+const usuarioElemento =
+            document.querySelector("#usuario");
 
-    const usuario =
-        document.getElementById("usuario").value.trim();
+const contrasenaElemento =
+            document.querySelector("#contrasena");
 
-    const contrasena =
-        document.getElementById("contrasena").value.trim();
+const mensaje =
+            document.querySelector("#mensaje");
 
-    const mensaje =
-        document.getElementById("mensaje");
 
-    mensaje.className = "";
-    mensaje.textContent = "Verificando...";
+if (formulario instanceof HTMLFormElement) {
 
-    try {
+            formulario.addEventListener(
+                "submit",
+                async function (event) {
 
-        const respuesta = await fetch(URL_BIBLIOTECA, {
+                    event.preventDefault();
 
-            method: "POST",
+                    if (
+                        !(usuarioElemento instanceof HTMLInputElement) ||
+                        !(contrasenaElemento instanceof HTMLInputElement) ||
+                        !(mensaje instanceof HTMLElement)
+                    ) {
 
-            headers: {
-                "Content-Type": "text/plain;charset=utf-8"
-            },
+                        console.error(
+                            "No se encontraron correctamente los elementos del formulario."
+                        );
 
-            body: JSON.stringify({
+                        return;
+                    }
 
-                accion: "login",
 
-                usuario: usuario,
+                    const usuario =
+                        usuarioElemento.value.trim();
 
-                contrasena: contrasena
+                    const contrasena =
+                        contrasenaElemento.value.trim();
 
-            })
 
-        });
+                    mensaje.className = "";
 
-        const resultado = await respuesta.json();
+                    mensaje.textContent =
+                        "Verificando...";
 
-        if (!resultado.ok) {
 
-            mensaje.className = "error";
+                    try {
 
-            mensaje.textContent =
-                resultado.mensaje || "Usuario o contraseña incorrectos.";
+                        const respuesta =
+                            await fetch(URL_BIBLIOTECA, {
 
-            return;
-        }
+                                method: "POST",
 
-        // Guardamos los datos de la sesión
-        localStorage.setItem(
-            "usuarioSistema",
-            JSON.stringify(resultado.usuario)
-        );
+                                headers: {
+                                    "Content-Type":
+                                        "text/plain;charset=utf-8"
+                                },
 
-        mensaje.className = "exito";
-        mensaje.textContent = "Acceso correcto. Ingresando...";
+                                body: JSON.stringify({
 
-        setTimeout(() => {
+                                    accion: "login",
 
-            window.location.href = "index.html";
+                                    usuario: usuario,
 
-        }, 500);
+                                    contrasena: contrasena
 
-    } catch (error) {
+                                })
 
-        console.error(error);
+                            });
 
-        mensaje.className = "error";
 
-        mensaje.textContent =
-            "No se pudo conectar con el servidor.";
+                        const resultado =
+                            await respuesta.json();
 
-    }
+
+                        if (!resultado.ok) {
+
+                            mensaje.className =
+                                "error";
+
+                            mensaje.textContent =
+                                resultado.mensaje ||
+                                "Usuario o contraseña incorrectos.";
+
+                            return;
+                        }
+
+
+                        localStorage.setItem(
+                            "usuarioSistema",
+                            JSON.stringify(
+                                resultado.usuario
+                            )
+                        );
+
+
+                        mensaje.className =
+                            "exito";
+
+                        mensaje.textContent =
+                            "Acceso correcto. Ingresando...";
+
+
+                        setTimeout(function () {
+
+                            window.location.href =
+                                "index.html";
+
+                        }, 500);
+
+
+                    } catch (error) {
+
+                        console.error(error);
+
+                        mensaje.className =
+                            "error";
+
+                        mensaje.textContent =
+                            "No se pudo conectar con el servidor.";
+
+                    }
+
+                }
+            );
 
 }
 
