@@ -1,39 +1,16 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <script>
 
-        const usuarioSistema = localStorage.getItem("usuarioSistema");
-
-        if (!usuarioSistema) {
-
-            window.location.href = "login.html";
-
-        } else {
-
-            const datosUsuario = JSON.parse(usuarioSistema);
-
-            const rol = String(datosUsuario.rol || "")
-                .trim()
-                .toLowerCase();
-
-            if (rol !== "administrador" && rol !== "admin") {
-
-                window.location.href = "index.html";
-
-            }
-
-        }
-    </script>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Usuarios - Biblioteca</title>
 
     <style>
-        .ocultar-no-admin {
-            display: none;
-        }
+
         * {
             box-sizing: border-box;
         }
@@ -45,63 +22,105 @@
             color: #333;
         }
 
+        /* =========================================
+           ENCABEZADO
+        ========================================= */
+
         header {
             background-color: #1f4e79;
             color: white;
             padding: 20px;
             text-align: center;
+            width: 100%;
         }
-
-            header h1 {
-                margin: 0;
-            }
+        /* =========================================
+           MENÚ
+        ========================================= */
 
         nav {
             background-color: #163a5c;
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-wrap: wrap;
+            padding: 0;
+            width: 100%;
         }
 
             nav a {
                 color: white;
                 text-decoration: none;
-                padding: 15px 25px;
+                padding: 14px 20px;
                 display: block;
             }
 
                 nav a:hover {
-                    background-color: #1f4e79;
+                    background-color: #245d8f;
                 }
 
                 nav a.activo {
-                    background-color: #1f4e79;
-                    font-weight: bold;
+                    background-color: #1976d2;
                 }
 
-        main {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 20px;
+        .ocultar-no-admin {
+            display: none !important;
         }
+
+        /* =========================================
+           CONTENEDOR
+        ========================================= */
 
         .contenedor {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+            max-width: 1400px;
+            margin: 25px auto;
+            padding: 0 20px;
         }
 
-        h2 {
-            color: #1f4e79;
-            margin-top: 0;
+        /* =========================================
+           TITULO
+        ========================================= */
+
+        .titulo-pagina {
+            margin-bottom: 20px;
         }
+
+            .titulo-pagina h2 {
+                margin: 0 0 5px 0;
+                color: #1f4e79;
+            }
+
+            .titulo-pagina p {
+                margin: 0;
+                color: #666;
+            }
+
+        /* =========================================
+           TARJETAS
+        ========================================= */
+
+        .tarjeta {
+            background-color: white;
+            border-radius: 8px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+            .tarjeta h3 {
+                margin-top: 0;
+                color: #1f4e79;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 10px;
+            }
+
+        /* =========================================
+           FORMULARIO
+        ========================================= */
 
         .formulario {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
         }
 
         .campo {
@@ -112,49 +131,83 @@
             .campo label {
                 font-weight: bold;
                 margin-bottom: 6px;
+                color: #444;
             }
 
             .campo input,
             .campo select {
-                padding: 11px;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                font-size: 15px;
+                padding: 10px;
+                border: 1px solid #bbb;
+                border-radius: 5px;
+                font-size: 14px;
+                width: 100%;
             }
 
                 .campo input:focus,
                 .campo select:focus {
                     outline: none;
-                    border-color: #1f4e79;
+                    border-color: #1976d2;
+                    box-shadow: 0 0 0 2px rgba(25,118,210,0.12);
                 }
 
         .campo-completo {
             grid-column: 1 / -1;
         }
 
+        /* =========================================
+           CUENTA DE ACCESO
+        ========================================= */
+
+        .seccion-acceso {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #e3e7eb;
+        }
+
+            .seccion-acceso h4 {
+                margin: 0 0 6px 0;
+                color: #1f4e79;
+                font-size: 18px;
+            }
+
+            .seccion-acceso p {
+                margin: 0 0 18px 0;
+                color: #666;
+                font-size: 14px;
+            }
+
+        .aviso-contrasena {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #777;
+        }
+
+        /* =========================================
+           BOTONES
+        ========================================= */
+
         .botones {
-            grid-column: 1 / -1;
+            margin-top: 20px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 10px;
         }
 
         button {
             border: none;
-            padding: 11px 20px;
-            border-radius: 6px;
+            border-radius: 5px;
+            padding: 10px 18px;
+            font-size: 14px;
             cursor: pointer;
-            font-size: 15px;
         }
 
         .btn-guardar {
-            background-color: #1f4e79;
+            background-color: #1976d2;
             color: white;
         }
 
             .btn-guardar:hover {
-                background-color: #163a5c;
+                background-color: #125da7;
             }
 
         .btn-cancelar {
@@ -163,100 +216,128 @@
         }
 
             .btn-cancelar:hover {
-                background-color: #555;
+                background-color: #5f5f5f;
             }
-
-        .busqueda {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-            .busqueda input {
-                flex: 1;
-                padding: 12px;
-                border: 1px solid #ccc;
-                border-radius: 6px;
-                font-size: 15px;
-            }
-
-        .tabla-contenedor {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        th {
-            background-color: #1f4e79;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr:hover {
-            background-color: #f5f5f5;
-        }
 
         .btn-editar {
-            background-color: #e6a700;
+            background-color: #f0ad4e;
             color: white;
             padding: 7px 12px;
-            margin-right: 5px;
         }
 
         .btn-eliminar {
-            background-color: #c62828;
+            background-color: #d9534f;
             color: white;
             padding: 7px 12px;
         }
 
         .btn-editar:hover {
-            background-color: #c08b00;
+            background-color: #dc8b18;
         }
 
         .btn-eliminar:hover {
-            background-color: #a51f1f;
+            background-color: #bd302c;
         }
+
+        /* =========================================
+           BUSCADOR
+        ========================================= */
+
+        .buscador {
+            margin-bottom: 15px;
+        }
+
+            .buscador input {
+                width: 100%;
+                padding: 11px;
+                border: 1px solid #bbb;
+                border-radius: 5px;
+                font-size: 14px;
+            }
+
+        /* =========================================
+           TABLA
+        ========================================= */
+
+        .tabla-contenedor {
+            overflow-x: auto;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1100px;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #1f4e79;
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        tr:hover {
+            background-color: #f5f8fb;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================
+           ESTADO
+        ========================================= */
 
         .mensaje {
             display: none;
             padding: 12px;
-            margin-bottom: 20px;
-            border-radius: 6px;
-            background-color: #dff0d8;
-            color: #2e6b2e;
-        }
-
-        .estado {
+            border-radius: 5px;
             margin-bottom: 15px;
+        }
+
+            .mensaje.exito {
+                display: block;
+                background-color: #dff0d8;
+                color: #3c763d;
+            }
+
+            .mensaje.error {
+                display: block;
+                background-color: #f2dede;
+                color: #a94442;
+            }
+
+        .cargando {
+            text-align: center;
+            padding: 20px;
             color: #666;
-            font-size: 14px;
         }
 
-        .sin-usuarios {
-            text-align: center;
-            padding: 25px;
-            color: #777;
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .formulario {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
-        footer {
-            margin-top: 40px;
-            background-color: #163a5c;
-            color: white;
-            text-align: center;
-            padding: 15px;
-        }
-
-        @media (max-width: 700px) {
+        @media (max-width: 600px) {
 
             .formulario {
                 grid-template-columns: 1fr;
@@ -266,69 +347,150 @@
                 grid-column: auto;
             }
 
-            .botones {
-                grid-column: auto;
-            }
-
             nav a {
-                padding: 12px 15px;
+                padding: 12px 14px;
+                font-size: 14px;
             }
 
-            table {
-                font-size: 13px;
-            }
-
-            th,
-            td {
-                padding: 8px;
+            .contenedor {
+                padding: 0 10px;
             }
         }
     </style>
 
-    <link rel="stylesheet" href="css/estilos.css">
+    <!--
+        IMPORTANTE:
+        Este script se ejecuta antes de mostrar la página.
+        Solo Administrador puede acceder a Usuarios.
+    -->
+
+    <script>
+
+        const usuarioSistema =
+            localStorage.getItem("usuarioSistema");
+
+        if (!usuarioSistema) {
+
+            window.location.href = "login.html";
+
+        } else {
+
+            try {
+
+                const datosUsuario =
+                    JSON.parse(usuarioSistema);
+
+                const rol =
+                    String(datosUsuario.rol || "")
+                        .trim()
+                        .toLowerCase();
+
+                if (
+                    rol !== "administrador" &&
+                    rol !== "admin"
+                ) {
+
+                    window.location.href = "index.html";
+
+                }
+
+            } catch (error) {
+
+                localStorage.removeItem("usuarioSistema");
+
+                window.location.href = "login.html";
+
+            }
+
+        }
+
+    </script>
+
 </head>
 
+
 <body>
+
+    <!-- =========================================
+         ENCABEZADO
+    ========================================== -->
 
     <header>
         <h1>📚 Biblioteca</h1>
         <p>Gestión de usuarios</p>
     </header>
 
+
+    <!-- =========================================
+         MENÚ
+    ========================================== -->
+
     <nav>
-        <a href="index.html">Inicio</a>
-        <a href="libros.html">Libros</a>
-        <a href="usuarios.html" class="activo">Usuarios</a>
+
+        <a href="index.html">
+            Inicio
+        </a>
+
+        <a href="libros.html">
+            Libros
+        </a>
+
+        <a href="usuarios.html" class="activo">
+            Usuarios
+        </a>
+
         <a href="prestamos.html"
-           id="menuPrestamos"
-           class="ocultar-no-admin">
+           id="menuPrestamos">
             Préstamos
         </a>
+
     </nav>
 
-    <main>
 
-        <!-- =========================================
+    <!-- =========================================
+         CONTENIDO
+    ========================================== -->
+
+    <main class="contenedor">
+
+
+        <div class="titulo-pagina">
+
+            <h2>Usuarios</h2>
+
+            <p>
+                Administración de usuarios de la biblioteca y sus cuentas de acceso al sistema.
+            </p>
+
+        </div>
+
+
+        <!-- =====================================
+             MENSAJES
+        ====================================== -->
+
+        <div id="mensaje" class="mensaje"></div>
+
+
+        <!-- =====================================
              FORMULARIO
-        ========================================== -->
+        ====================================== -->
 
-        <div class="contenedor">
+        <section class="tarjeta">
 
-            <h2 id="tituloFormulario">
-                👤 Registrar usuario
-            </h2>
-
-            <div id="mensaje" class="mensaje"></div>
-
-            <div id="estado" class="estado">
-                Conectando con Google Sheets...
-            </div>
+            <h3 id="tituloFormulario">
+                Nuevo usuario
+            </h3>
 
 
             <form id="formularioUsuario">
 
-                <div class="formulario">
 
+                <!-- ===============================
+                     DATOS DEL USUARIO
+                ================================= -->
+
+                <div class="formulario">
 
                     <div class="campo">
 
@@ -376,8 +538,7 @@
                         </label>
 
                         <input type="text"
-                               id="curso"
-                               placeholder="Ej.: 6° A">
+                               id="curso">
 
                     </div>
 
@@ -388,9 +549,8 @@
                             Teléfono
                         </label>
 
-                        <input type="tel"
-                               id="telefono"
-                               placeholder="Ej.: 3751 123456">
+                        <input type="text"
+                               id="telefono">
 
                     </div>
 
@@ -402,16 +562,15 @@
                         </label>
 
                         <input type="email"
-                               id="correo"
-                               placeholder="Ej.: usuario@email.com">
+                               id="correo">
 
                     </div>
 
 
-                    <div class="campo campo-completo">
+                    <div class="campo">
 
                         <label for="tipo">
-                            Tipo de usuario *
+                            Tipo *
                         </label>
 
                         <select id="tipo" required>
@@ -440,55 +599,173 @@
 
                     </div>
 
-
-                    <div class="botones">
-
-                        <button type="submit"
-                                class="btn-guardar"
-                                id="btnGuardar">
-
-                            💾 Guardar usuario
-
-                        </button>
+                </div>
 
 
-                        <button type="button"
-                                class="btn-cancelar"
-                                id="btnCancelar"
-                                onclick="cancelarEdicion()"
-                                style="display:none;">
+                <!-- =================================
+                     CUENTA DE ACCESO
+                ================================== -->
 
-                            ❌ Cancelar
+                <div class="seccion-acceso">
 
-                        </button>
+                    <h4>
+                        Cuenta de acceso al sistema
+                    </h4>
+
+                    <p>
+                        Estos datos permitirán que esta persona ingrese al sistema con el rol asignado.
+                    </p>
+
+
+                    <div class="formulario">
+
+
+                        <div class="campo">
+
+                            <label for="usuarioAcceso">
+                                Usuario de acceso *
+                            </label>
+
+                            <input type="text"
+                                   id="usuarioAcceso"
+                                   autocomplete="off"
+                                   required>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="contrasena">
+                                Contraseña
+                                <span id="textoContrasena">
+                                    *
+                                </span>
+                            </label>
+
+                            <input type="password"
+                                   id="contrasena"
+                                   autocomplete="new-password">
+
+                            <div id="avisoContrasena"
+                                 class="aviso-contrasena"
+                                 style="display:none;">
+
+                                Dejar en blanco para conservar la contraseña actual.
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="rol">
+                                Rol *
+                            </label>
+
+                            <select id="rol"
+                                    required>
+
+                                <option value="">
+                                    Seleccionar...
+                                </option>
+
+                                <option value="Administrador">
+                                    Administrador
+                                </option>
+
+                                <option value="Bibliotecario">
+                                    Bibliotecario
+                                </option>
+
+                                <option value="Docente">
+                                    Docente
+                                </option>
+
+                                <option value="Consulta">
+                                    Consulta
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="campo">
+
+                            <label for="activo">
+                                Cuenta activa *
+                            </label>
+
+                            <select id="activo"
+                                    required>
+
+                                <option value="SI">
+                                    SI
+                                </option>
+
+                                <option value="NO">
+                                    NO
+                                </option>
+
+                            </select>
+
+                        </div>
 
                     </div>
 
                 </div>
 
+
+                <!-- =================================
+                     BOTONES
+                ================================== -->
+
+                <div class="botones">
+
+                    <button type="submit"
+                            class="btn-guardar"
+                            id="btnGuardar">
+
+                        Guardar usuario
+
+                    </button>
+
+
+                    <button type="button"
+                            class="btn-cancelar"
+                            id="btnCancelar"
+                            style="display:none;">
+
+                        Cancelar edición
+
+                    </button>
+
+                </div>
+
+
             </form>
 
-        </div>
+        </section>
 
 
-
-        <!-- =========================================
+        <!-- =====================================
              LISTADO
-        ========================================== -->
+        ====================================== -->
 
-        <div class="contenedor">
+        <section class="tarjeta">
 
-            <h2>
-                📋 Usuarios registrados
-            </h2>
+            <h3>
+                Usuarios registrados
+            </h3>
 
 
-            <div class="busqueda">
+            <div class="buscador">
 
                 <input type="text"
-                       id="buscar"
-                       placeholder="🔎 Buscar por nombre, apellido o DNI..."
-                       oninput="mostrarUsuarios()">
+                       id="busqueda"
+                       placeholder="Buscar por nombre, apellido o DNI...">
 
             </div>
 
@@ -501,90 +778,187 @@
 
                         <tr>
 
-                            <th>#</th>
+                            <th>
+                                #
+                            </th>
 
-                            <th>Nombre</th>
+                            <th>
+                                Nombre
+                            </th>
 
-                            <th>Apellido</th>
+                            <th>
+                                Apellido
+                            </th>
 
-                            <th>DNI</th>
+                            <th>
+                                DNI
+                            </th>
 
-                            <th>Curso / Grado</th>
+                            <th>
+                                Curso / Grado
+                            </th>
 
-                            <th>Teléfono</th>
+                            <th>
+                                Teléfono
+                            </th>
 
-                            <th>Tipo</th>
+                            <th>
+                                Tipo
+                            </th>
 
-                            <th>Acciones</th>
+                            <th>
+                                Usuario
+                            </th>
+
+                            <th>
+                                Rol
+                            </th>
+
+                            <th>
+                                Estado
+                            </th>
+
+                            <th>
+                                Acciones
+                            </th>
 
                         </tr>
 
                     </thead>
 
 
-                    <tbody id="tablaUsuarios">
+                    <tbody id="listaUsuarios">
+
+                        <tr>
+
+                            <td colspan="11"
+                                class="cargando">
+
+                                Cargando usuarios...
+
+                            </td>
+
+                        </tr>
+
                     </tbody>
 
                 </table>
 
             </div>
 
-        </div>
+        </section>
+
 
     </main>
 
 
-    <footer>
-        Biblioteca © 2026
-    </footer>
-
-
-
     <script>
 
+        // =====================================================
+        // CONFIGURACIÓN
+        // =====================================================
 
-        // =========================================
-        // URL GOOGLE APPS SCRIPT
-        // =========================================
+const URL_BIBLIOTECA =
+    "https://script.google.com/macros/s/AKfycbzGrhS1bQXsMoW-3o7SXUWkPy0te5jGPXt4lq_lEalWiLDE4lELiooT3zxSwb-wQWjt/exec";
 
-        const URL_BIBLIOTECA =
-            "https://script.google.com/macros/s/AKfycbyVqvklxitqN0_L9nqdtYWfzWcy10yQnXy9dpsAgQRGYiEiHIGBLdWKhaKzaTRPPxk/exec";
 
+        // =====================================================
+        // VARIABLES
+        // =====================================================
 
         let usuarios = [];
+
+        let cuentasSistema = [];
 
         let usuarioEditando = null;
 
 
+        // =====================================================
+        // ELEMENTOS
+        // =====================================================
 
-        // =========================================
+        const formulario =
+            document.getElementById("formularioUsuario");
+
+        const listaUsuarios =
+            document.getElementById("listaUsuarios");
+
+        const busqueda =
+            document.getElementById("busqueda");
+
+        const mensaje =
+            document.getElementById("mensaje");
+
+        const tituloFormulario =
+            document.getElementById("tituloFormulario");
+
+        const btnGuardar =
+            document.getElementById("btnGuardar");
+
+        const btnCancelar =
+            document.getElementById("btnCancelar");
+
+        const contrasena =
+            document.getElementById("contrasena");
+
+        const avisoContrasena =
+            document.getElementById("avisoContrasena");
+
+        const textoContrasena =
+            document.getElementById("textoContrasena");
+
+
+        // =====================================================
+        // MOSTRAR MENSAJE
+        // =====================================================
+
+        function mostrarMensaje(texto, tipo) {
+
+            mensaje.textContent = texto;
+
+            mensaje.className =
+                "mensaje " + tipo;
+
+            setTimeout(function () {
+
+                mensaje.className = "mensaje";
+
+                mensaje.textContent = "";
+
+            }, 5000);
+
+        }
+
+
+        // =====================================================
         // CARGAR USUARIOS
-        // =========================================
+        // =====================================================
 
         async function cargarUsuarios() {
 
-            const estado =
-                document.getElementById("estado");
+            listaUsuarios.innerHTML = `
 
-            estado.textContent =
-                "⏳ Conectando con Google Sheets...";
+                    <tr>
 
-            const MAX_INTENTOS = 3;
+                        <td
+                            colspan="11"
+                            class="cargando">
 
-            for (
-                let intento = 1;
-                intento <= MAX_INTENTOS;
-                intento++
-            ) {
+                            Cargando usuarios...
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+
+            let ultimoError = null;
+
+
+            for (let intento = 1; intento <= 3; intento++) {
 
                 try {
-
-                    console.log(
-                        "Intento de conexión de usuarios:",
-                        intento,
-                        "de",
-                        MAX_INTENTOS
-                    );
 
                     const respuesta =
                         await fetch(
@@ -597,81 +971,71 @@
                             }
                         );
 
-                    console.log(
-                        "Respuesta usuarios:",
-                        respuesta
-                    );
 
                     if (!respuesta.ok) {
 
                         throw new Error(
-                            "Error HTTP: " +
+                            "Error HTTP " +
                             respuesta.status
                         );
 
                     }
 
+
                     const datos =
                         await respuesta.json();
 
-                    console.log(
-                        "Datos de usuarios:",
-                        datos
-                    );
 
                     if (!datos.ok) {
 
                         throw new Error(
                             datos.mensaje ||
-                            "Error al cargar usuarios"
+                            "No se pudieron cargar los datos"
                         );
 
                     }
 
+
                     usuarios =
-                        datos.usuarios || [];
+                        Array.isArray(datos.usuarios)
+                            ? datos.usuarios
+                            : [];
+
+
+                    cuentasSistema =
+                        Array.isArray(datos.usuariosSistema)
+                            ? datos.usuariosSistema
+                            : [];
+
 
                     mostrarUsuarios();
 
-                    estado.textContent =
-                        "🟢 Conectado con Google Sheets. " +
-                        usuarios.length +
-                        " usuario(s) cargado(s).";
-
                     return;
 
+
                 } catch (error) {
+
+                    ultimoError = error;
 
                     console.error(
                         "Intento " +
                         intento +
-                        " de usuarios fallido:",
+                        ":",
                         error
                     );
 
-                    if (intento < MAX_INTENTOS) {
 
-                        estado.textContent =
-                            "⏳ Conexión temporalmente no disponible. " +
-                            "Reintentando... (" +
-                            intento +
-                            "/" +
-                            MAX_INTENTOS +
-                            ")";
+                    if (intento < 3) {
 
-                        await new Promise(function (resolver) {
+                        await new Promise(
+                            function (resolve) {
 
-                            setTimeout(resolver, 2000);
+                                setTimeout(
+                                    resolve,
+                                    1000
+                                );
 
-                        });
-
-                    } else {
-
-                        estado.textContent =
-                            "🔴 No se pudo conectar con Google Sheets.";
-
-                        console.error(
-                            "Se agotaron los intentos para cargar usuarios."
+                            }
                         );
 
                     }
@@ -680,364 +1044,283 @@
 
             }
 
+
+            listaUsuarios.innerHTML = `
+
+                    <tr>
+
+                        <td
+                            colspan="11"
+                            class="cargando">
+
+                            No se pudieron cargar los usuarios.
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+
+            mostrarMensaje(
+                ultimoError
+                    ? ultimoError.message
+                    : "Error al cargar usuarios",
+                "error"
+            );
+
         }
 
-        // =========================================
+
+        // =====================================================
+        // OBTENER CUENTA POR DNI
+        // =====================================================
+
+        function obtenerCuentaPorDNI(dni) {
+
+            const dniBuscado =
+                String(dni || "").trim();
+
+
+            return cuentasSistema.find(
+                function (cuenta) {
+
+                    return String(
+                        cuenta.dni || ""
+                    ).trim() === dniBuscado;
+
+                }
+            ) || null;
+
+        }
+
+
+        // =====================================================
         // MOSTRAR USUARIOS
-        // =========================================
+        // =====================================================
 
         function mostrarUsuarios() {
 
-            const tabla =
-                document.getElementById("tablaUsuarios");
-
-
             const texto =
-                document
-                    .getElementById("buscar")
-                    .value
-                    .toLowerCase()
-                    .trim();
-
-
-            tabla.innerHTML = "";
+                String(
+                    busqueda.value || ""
+                )
+                    .trim()
+                    .toLowerCase();
 
 
             const filtrados =
-                usuarios.filter(function (usuario) {
+                usuarios.filter(
+                    function (usuario) {
 
-                    return (
+                        return (
 
-                        String(usuario.nombre || "")
-                            .toLowerCase()
-                            .includes(texto)
+                            String(
+                                usuario.nombre || ""
+                            )
+                                .toLowerCase()
+                                .includes(texto)
 
-                        ||
+                            ||
 
-                        String(usuario.apellido || "")
-                            .toLowerCase()
-                            .includes(texto)
+                            String(
+                                usuario.apellido || ""
+                            )
+                                .toLowerCase()
+                                .includes(texto)
 
-                        ||
+                            ||
 
-                        String(usuario.dni || "")
-                            .toLowerCase()
-                            .includes(texto)
+                            String(
+                                usuario.dni || ""
+                            )
+                                .toLowerCase()
+                                .includes(texto)
 
-                    );
+                        );
 
-                });
+                    }
+                );
+
+
+            listaUsuarios.innerHTML = "";
 
 
             if (filtrados.length === 0) {
 
-                tabla.innerHTML = `
-                            <tr>
-                                <td colspan="8" class="sin-usuarios">
-                                    No hay usuarios registrados.
-                                </td>
-                            </tr>
-                        `;
+                listaUsuarios.innerHTML = `
+
+                        <tr>
+
+                            <td
+                                colspan="11"
+                                class="cargando">
+
+                                No hay usuarios registrados.
+
+                            </td>
+
+                        </tr>
+
+                    `;
 
                 return;
 
             }
 
 
-            filtrados.forEach(function (usuario) {
+            filtrados.forEach(
+                function (usuario, indice) {
+
+                    const cuenta =
+                        obtenerCuentaPorDNI(
+                            usuario.dni
+                        );
 
 
-                const indice =
-                    usuarios.indexOf(usuario);
+                    const fila =
+                        document.createElement("tr");
 
 
-                const fila =
-                    document.createElement("tr");
-
-
-                fila.innerHTML = `
+                    fila.innerHTML = `
 
                             <td>
                                 ${indice + 1}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.nombre)}
+                                ${escaparHTML(
+                        usuario.nombre
+                    )}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.apellido)}
+                                ${escaparHTML(
+                        usuario.apellido
+                    )}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.dni)}
+                                ${escaparHTML(
+                        usuario.dni
+                    )}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.curso || "-")}
+                                ${escaparHTML(
+                        usuario.curso
+                    )}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.telefono || "-")}
+                                ${escaparHTML(
+                        usuario.telefono
+                    )}
                             </td>
 
                             <td>
-                                ${escapeHTML(usuario.tipo)}
+                                ${escaparHTML(
+                        usuario.tipo
+                    )}
+                            </td>
+
+                            <td>
+                                ${cuenta
+                            ? escaparHTML(
+                                cuenta.usuario
+                            )
+                            : "-"
+                        }
+                            </td>
+
+                            <td>
+                                ${cuenta
+                            ? escaparHTML(
+                                cuenta.rol
+                            )
+                            : "-"
+                        }
+                            </td>
+
+                            <td>
+                                ${cuenta
+                            ? escaparHTML(
+                                cuenta.activo
+                            )
+                            : "-"
+                        }
                             </td>
 
                             <td>
 
-                                <button
-                                    class="btn-editar"
-                                    onclick="editarUsuario(${indice})">
+                                <div class="acciones">
 
-                                    ✏️ Editar
+                                    <button
+                                        type="button"
+                                        class="btn-editar"
+                                        onclick="editarUsuario('${escaparAtributo(usuario.dni)}')">
 
-                                </button>
+                                        Editar
+
+                                    </button>
 
 
-                                <button
-                                    class="btn-eliminar"
-                                    onclick="eliminarUsuario(${indice})">
+                                    <button
+                                        type="button"
+                                        class="btn-eliminar"
+                                        onclick="eliminarUsuario('${escaparAtributo(usuario.dni)}')">
 
-                                    🗑️ Eliminar
+                                        Eliminar
 
-                                </button>
+                                    </button>
+
+                                </div>
 
                             </td>
 
                         `;
 
 
-                tabla.appendChild(fila);
-
-            });
-
-        }
-
-
-
-        // =========================================
-        // AGREGAR / EDITAR
-        // =========================================
-
-        document
-            .getElementById("formularioUsuario")
-            .addEventListener(
-                "submit",
-                async function (evento) {
-
-                    evento.preventDefault();
-
-
-                    const nombre =
-                        document
-                            .getElementById("nombre")
-                            .value
-                            .trim();
-
-
-                    const apellido =
-                        document
-                            .getElementById("apellido")
-                            .value
-                            .trim();
-
-
-                    const dni =
-                        document
-                            .getElementById("dni")
-                            .value
-                            .trim();
-
-
-                    const curso =
-                        document
-                            .getElementById("curso")
-                            .value
-                            .trim();
-
-
-                    const telefono =
-                        document
-                            .getElementById("telefono")
-                            .value
-                            .trim();
-
-
-                    const correo =
-                        document
-                            .getElementById("correo")
-                            .value
-                            .trim();
-
-
-                    const tipo =
-                        document
-                            .getElementById("tipo")
-                            .value;
-
-
-                    const btn =
-                        document.getElementById("btnGuardar");
-
-
-                    btn.disabled = true;
-
-
-                    // =================================
-                    // EDITAR
-                    // =================================
-
-                    if (usuarioEditando !== null) {
-
-                        const usuarioOriginal =
-                            usuarios[usuarioEditando];
-
-
-                        const datos = {
-
-                            accion: "editarUsuario",
-
-                            dniOriginal:
-                                usuarioOriginal.dni,
-
-                            nombre: nombre,
-
-                            apellido: apellido,
-
-                            dni: dni,
-
-                            curso: curso,
-
-                            telefono: telefono,
-
-                            correo: correo,
-
-                            tipo: tipo
-
-                        };
-
-
-                        try {
-
-                            const respuesta =
-                                await enviarDatos(datos);
-
-
-                            if (!respuesta.ok) {
-
-                                throw new Error(
-                                    respuesta.mensaje
-                                );
-
-                            }
-
-
-                            mostrarMensaje(
-                                "✅ Usuario actualizado correctamente."
-                            );
-
-
-                            cancelarEdicion();
-
-
-                            await cargarUsuarios();
-
-
-                        } catch (error) {
-
-                            alert(
-                                "❌ Error al actualizar usuario:\n\n" +
-                                error.message
-                            );
-
-                        }
-
-
-                        btn.disabled = false;
-
-                        return;
-
-                    }
-
-
-
-                    // =================================
-                    // AGREGAR
-                    // =================================
-
-                    const datos = {
-
-                        accion: "agregarUsuario",
-
-                        nombre: nombre,
-
-                        apellido: apellido,
-
-                        dni: dni,
-
-                        curso: curso,
-
-                        telefono: telefono,
-
-                        correo: correo,
-
-                        tipo: tipo
-
-                    };
-
-
-                    try {
-
-                        const respuesta =
-                            await enviarDatos(datos);
-
-
-                        if (!respuesta.ok) {
-
-                            throw new Error(
-                                respuesta.mensaje
-                            );
-
-                        }
-
-
-                        mostrarMensaje(
-                            "✅ Usuario agregado correctamente."
-                        );
-
-
-                        document
-                            .getElementById(
-                                "formularioUsuario"
-                            )
-                            .reset();
-
-
-                        await cargarUsuarios();
-
-
-                    } catch (error) {
-
-                        alert(
-                            "❌ Error al guardar usuario:\n\n" +
-                            error.message
-                        );
-
-                    }
-
-
-                    btn.disabled = false;
+                    listaUsuarios.appendChild(fila);
 
                 }
             );
 
+        }
 
 
-        // =========================================
+        // =====================================================
+        // ESCAPAR HTML
+        // =====================================================
+
+        function escaparHTML(valor) {
+
+            return String(valor ?? "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =====================================================
+        // ESCAPAR ATRIBUTO
+        // =====================================================
+
+        function escaparAtributo(valor) {
+
+            return String(valor ?? "")
+                .replace(/\\/g, "\\\\")
+                .replace(/'/g, "\\'");
+
+        }
+
+
+        // =====================================================
         // ENVIAR DATOS
-        // =========================================
+        // =====================================================
 
         async function enviarDatos(datos) {
 
@@ -1045,164 +1328,567 @@
                 await fetch(
                     URL_BIBLIOTECA,
                     {
-
                         method: "POST",
-
+                        headers: {
+                            "Content-Type":
+                                "text/plain;charset=utf-8"
+                        },
                         body: JSON.stringify(datos)
-
                     }
                 );
 
 
-            return await respuesta.json();
+            if (!respuesta.ok) {
+
+                throw new Error(
+                    "Error HTTP " +
+                    respuesta.status
+                );
+
+            }
+
+
+            const resultado =
+                await respuesta.json();
+
+
+            return resultado;
 
         }
 
 
+        // =====================================================
+        // NUEVO USUARIO
+        // =====================================================
 
-        // =========================================
-        // EDITAR USUARIO
-        // =========================================
-
-        function editarUsuario(indice) {
-
-            const usuario =
-                usuarios[indice];
-
-
-            document
-                .getElementById("nombre")
-                .value =
-                usuario.nombre;
-
-
-            document
-                .getElementById("apellido")
-                .value =
-                usuario.apellido;
-
-
-            document
-                .getElementById("dni")
-                .value =
-                usuario.dni;
-
-
-            document
-                .getElementById("curso")
-                .value =
-                usuario.curso || "";
-
-
-            document
-                .getElementById("telefono")
-                .value =
-                usuario.telefono || "";
-
-
-            document
-                .getElementById("correo")
-                .value =
-                usuario.correo || "";
-
-
-            document
-                .getElementById("tipo")
-                .value =
-                usuario.tipo;
-
-
-            usuarioEditando =
-                indice;
-
-
-            document
-                .getElementById("tituloFormulario")
-                .innerHTML =
-                "✏️ Editar usuario";
-
-
-            document
-                .getElementById("btnGuardar")
-                .innerHTML =
-                "💾 Actualizar usuario";
-
-
-            document
-                .getElementById("btnCancelar")
-                .style.display =
-                "inline-block";
-
-
-            window.scrollTo({
-
-                top: 0,
-
-                behavior: "smooth"
-
-            });
-
-        }
-
-
-
-        // =========================================
-        // CANCELAR EDICIÓN
-        // =========================================
-
-        function cancelarEdicion() {
+        function nuevoUsuario() {
 
             usuarioEditando = null;
 
-
-            document
-                .getElementById("formularioUsuario")
-                .reset();
+            formulario.reset();
 
 
-            document
-                .getElementById("tituloFormulario")
-                .innerHTML =
-                "👤 Registrar usuario";
+            document.getElementById("activo").value =
+                "SI";
 
 
-            document
-                .getElementById("btnGuardar")
-                .innerHTML =
-                "💾 Guardar usuario";
+            tituloFormulario.textContent =
+                "Nuevo usuario";
 
 
-            document
-                .getElementById("btnCancelar")
-                .style.display =
+            btnGuardar.textContent =
+                "Guardar usuario";
+
+
+            btnCancelar.style.display =
+                "none";
+
+
+            contrasena.required = true;
+
+            textoContrasena.textContent = "*";
+
+            avisoContrasena.style.display =
                 "none";
 
         }
 
 
+        // =====================================================
+        // EDITAR USUARIO
+        // =====================================================
 
-        // =========================================
-        // ELIMINAR USUARIO
-        // =========================================
-
-        async function eliminarUsuario(indice) {
+        function editarUsuario(dni) {
 
             const usuario =
-                usuarios[indice];
+                usuarios.find(
+                    function (item) {
+
+                        return String(item.dni) ===
+                            String(dni);
+
+                    }
+                );
+
+
+            if (!usuario) {
+
+                mostrarMensaje(
+                    "No se encontró el usuario.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            usuarioEditando = usuario;
+
+
+            document.getElementById("nombre").value =
+                usuario.nombre || "";
+
+            document.getElementById("apellido").value =
+                usuario.apellido || "";
+
+            document.getElementById("dni").value =
+                usuario.dni || "";
+
+            document.getElementById("curso").value =
+                usuario.curso || "";
+
+            document.getElementById("telefono").value =
+                usuario.telefono || "";
+
+            document.getElementById("correo").value =
+                usuario.correo || "";
+
+            document.getElementById("tipo").value =
+                usuario.tipo || "";
+
+
+            // ---------------------------------------------
+            // CUENTA DE ACCESO
+            // ---------------------------------------------
+
+            const cuenta =
+                obtenerCuentaPorDNI(
+                    usuario.dni
+                );
+
+
+            if (cuenta) {
+
+                document.getElementById(
+                    "usuarioAcceso"
+                ).value =
+                    cuenta.usuario || "";
+
+
+                document.getElementById(
+                    "rol"
+                ).value =
+                    cuenta.rol || "";
+
+
+                document.getElementById(
+                    "activo"
+                ).value =
+                    cuenta.activo || "SI";
+
+
+                contrasena.value = "";
+
+                contrasena.required = false;
+
+                textoContrasena.textContent = "";
+
+                avisoContrasena.style.display =
+                    "block";
+
+            } else {
+
+                document.getElementById(
+                    "usuarioAcceso"
+                ).value = "";
+
+
+                document.getElementById(
+                    "rol"
+                ).value = "";
+
+
+                document.getElementById(
+                    "activo"
+                ).value = "SI";
+
+
+                contrasena.value = "";
+
+                contrasena.required = true;
+
+                textoContrasena.textContent = "*";
+
+                avisoContrasena.style.display =
+                    "none";
+
+            }
+
+
+            tituloFormulario.textContent =
+                "Editar usuario";
+
+
+            btnGuardar.textContent =
+                "Guardar cambios";
+
+
+            btnCancelar.style.display =
+                "inline-block";
+
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+
+        // =====================================================
+        // GUARDAR USUARIO
+        // =====================================================
+
+        formulario.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const nombre =
+                    document.getElementById(
+                        "nombre"
+                    ).value.trim();
+
+
+                const apellido =
+                    document.getElementById(
+                        "apellido"
+                    ).value.trim();
+
+
+                const dni =
+                    document.getElementById(
+                        "dni"
+                    ).value.trim();
+
+
+                const curso =
+                    document.getElementById(
+                        "curso"
+                    ).value.trim();
+
+
+                const telefono =
+                    document.getElementById(
+                        "telefono"
+                    ).value.trim();
+
+
+                const correo =
+                    document.getElementById(
+                        "correo"
+                    ).value.trim();
+
+
+                const tipo =
+                    document.getElementById(
+                        "tipo"
+                    ).value;
+
+
+                const usuarioAcceso =
+                    document.getElementById(
+                        "usuarioAcceso"
+                    ).value.trim();
+
+
+                const contrasenaValor =
+                    document.getElementById(
+                        "contrasena"
+                    ).value;
+
+
+                const rol =
+                    document.getElementById(
+                        "rol"
+                    ).value;
+
+
+                const activo =
+                    document.getElementById(
+                        "activo"
+                    ).value;
+
+
+                // -----------------------------------------
+                // VALIDACIONES
+                // -----------------------------------------
+
+                if (
+                    !nombre ||
+                    !apellido ||
+                    !dni ||
+                    !tipo ||
+                    !usuarioAcceso ||
+                    !rol ||
+                    !activo
+                ) {
+
+                    mostrarMensaje(
+                        "Complete todos los campos obligatorios.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // Contraseña obligatoria al crear
+                if (
+                    !usuarioEditando &&
+                    !contrasenaValor
+                ) {
+
+                    mostrarMensaje(
+                        "Ingrese una contraseña para la cuenta de acceso.",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                // -----------------------------------------
+                // DESACTIVAR BOTÓN
+                // -----------------------------------------
+
+                btnGuardar.disabled = true;
+
+                btnGuardar.textContent =
+                    "Guardando...";
+
+
+                try {
+
+                    let datos;
+
+
+                    // =====================================
+                    // NUEVO
+                    // =====================================
+
+                    if (!usuarioEditando) {
+
+                        datos = {
+
+                            accion:
+                                "agregarUsuario",
+
+                            nombre:
+                                nombre,
+
+                            apellido:
+                                apellido,
+
+                            dni:
+                                dni,
+
+                            curso:
+                                curso,
+
+                            telefono:
+                                telefono,
+
+                            correo:
+                                correo,
+
+                            tipo:
+                                tipo,
+
+                            usuarioAcceso:
+                                usuarioAcceso,
+
+                            contrasena:
+                                contrasenaValor,
+
+                            rol:
+                                rol,
+
+                            activo:
+                                activo
+
+                        };
+
+                    }
+
+
+                    // =====================================
+                    // EDITAR
+                    // =====================================
+
+                    else {
+
+                        datos = {
+
+                            accion:
+                                "editarUsuario",
+
+                            dniOriginal:
+                                usuarioEditando.dni,
+
+                            nombre:
+                                nombre,
+
+                            apellido:
+                                apellido,
+
+                            dni:
+                                dni,
+
+                            curso:
+                                curso,
+
+                            telefono:
+                                telefono,
+
+                            correo:
+                                correo,
+
+                            tipo:
+                                tipo,
+
+                            usuarioAcceso:
+                                usuarioAcceso,
+
+                            contrasena:
+                                contrasenaValor,
+
+                            rol:
+                                rol,
+
+                            activo:
+                                activo
+
+                        };
+
+                    }
+
+
+                    console.log(
+                        "Datos enviados:",
+                        datos
+                    );
+
+
+                    const resultado =
+                        await enviarDatos(
+                            datos
+                        );
+
+
+                    if (!resultado.ok) {
+
+                        throw new Error(
+                            resultado.mensaje ||
+                            "No se pudo guardar el usuario."
+                        );
+
+                    }
+
+
+                    mostrarMensaje(
+                        resultado.mensaje ||
+                        "Usuario guardado correctamente.",
+                        "exito"
+                    );
+
+
+                    nuevoUsuario();
+
+
+                    await cargarUsuarios();
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+
+                    mostrarMensaje(
+                        error.message ||
+                        "Error al guardar el usuario.",
+                        "error"
+                    );
+
+
+                } finally {
+
+                    btnGuardar.disabled =
+                        false;
+
+
+                    btnGuardar.textContent =
+                        usuarioEditando
+                            ? "Guardar cambios"
+                            : "Guardar usuario";
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // CANCELAR EDICIÓN
+        // =====================================================
+
+        btnCancelar.addEventListener(
+            "click",
+            function () {
+
+                nuevoUsuario();
+
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+
+            }
+        );
+
+
+        // =====================================================
+        // ELIMINAR USUARIO
+        // =====================================================
+
+        async function eliminarUsuario(dni) {
+
+            const usuario =
+                usuarios.find(
+                    function (item) {
+
+                        return String(item.dni) ===
+                            String(dni);
+
+                    }
+                );
+
+
+            if (!usuario) {
+
+                mostrarMensaje(
+                    "No se encontró el usuario.",
+                    "error"
+                );
+
+                return;
+
+            }
 
 
             const confirmar =
                 confirm(
-
-                    "¿Está seguro de eliminar al usuario?\n\n" +
-
+                    "¿Está seguro de eliminar al usuario " +
                     usuario.nombre +
                     " " +
                     usuario.apellido +
-
-                    "\nDNI: " +
-                    usuario.dni
-
+                    "?\n\n" +
+                    "También se eliminará su cuenta de acceso al sistema."
                 );
 
 
@@ -1215,7 +1901,7 @@
 
             try {
 
-                const respuesta =
+                const resultado =
                     await enviarDatos({
 
                         accion:
@@ -1227,17 +1913,20 @@
                     });
 
 
-                if (!respuesta.ok) {
+                if (!resultado.ok) {
 
                     throw new Error(
-                        respuesta.mensaje
+                        resultado.mensaje ||
+                        "No se pudo eliminar el usuario."
                     );
 
                 }
 
 
                 mostrarMensaje(
-                    "🗑️ Usuario eliminado correctamente."
+                    resultado.mensaje ||
+                    "Usuario eliminado correctamente.",
+                    "exito"
                 );
 
 
@@ -1246,9 +1935,13 @@
 
             } catch (error) {
 
-                alert(
-                    "❌ Error al eliminar usuario:\n\n" +
-                    error.message
+                console.error(error);
+
+
+                mostrarMensaje(
+                    error.message ||
+                    "Error al eliminar el usuario.",
+                    "error"
                 );
 
             }
@@ -1256,89 +1949,25 @@
         }
 
 
+        // =====================================================
+        // BUSCAR
+        // =====================================================
 
-        // =========================================
-        // MENSAJE
-        // =========================================
-
-        function mostrarMensaje(texto) {
-
-            const mensaje =
-                document.getElementById("mensaje");
-
-
-            mensaje.innerHTML =
-                texto;
+        busqueda.addEventListener(
+            "input",
+            mostrarUsuarios
+        );
 
 
-            mensaje.style.display =
-                "block";
-
-
-            setTimeout(function () {
-
-                mensaje.style.display =
-                    "none";
-
-            }, 3000);
-
-        }
-
-
-
-        // =========================================
-        // SEGURIDAD HTML
-        // =========================================
-
-        function escapeHTML(texto) {
-
-            const div =
-                document.createElement("div");
-
-
-            div.textContent =
-                texto;
-
-
-            return div.innerHTML;
-
-        }
-
-
-
-        // =========================================
-        // INICIAR
-        // =========================================
+        // =====================================================
+        // INICIO
+        // =====================================================
 
         cargarUsuarios();
-        const datosUsuario = localStorage.getItem("usuarioSistema");
 
-        if (!datosUsuario) {
-            window.location.href = "login.html";
-        } else {
-
-            const usuario = JSON.parse(datosUsuario);
-
-            const rolActual = String(usuario.rol || "")
-                .trim()
-                .toLowerCase();
-
-            console.log("ROL PARA EL MENÚ:", rolActual);
-
-            const menuPrestamos =
-                document.getElementById("menuPrestamos");
-
-            // Solo Administrador puede ver Préstamos
-            if (
-                rolActual === "administrador" ||
-                rolActual === "admin"
-            ) {
-                if (menuPrestamos) {
-                    menuPrestamos.classList.remove("ocultar-no-admin");
-                }
-            }
-        }
     </script>
 
+
 </body>
+
 </html>
