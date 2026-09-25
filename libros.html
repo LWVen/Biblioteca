@@ -207,6 +207,30 @@
 
         @media (max-width: 700px) {
 
+            header {
+                padding: 18px 15px;
+            }
+
+                header h1 {
+                    font-size: 26px;
+                    margin: 0 0 8px 0;
+                }
+
+                header p {
+                    font-size: 15px;
+                    margin: 0;
+                }
+
+            nav {
+                padding: 8px;
+            }
+
+                nav a {
+                    padding: 10px 12px;
+                    margin: 2px;
+                    font-size: 14px;
+                }
+
             main {
                 padding: 10px;
                 margin: 15px auto;
@@ -214,42 +238,46 @@
 
             .tarjeta {
                 padding: 18px;
+                margin-bottom: 15px;
             }
 
-            .buscador input {
-                font-size: 16px;
-                padding: 13px;
+            h2 {
+                font-size: 22px;
             }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .formulario {
+                width: 100%;
+            }
+
+            input {
+                font-size: 16px;
+                padding: 12px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px;
+            }
+
+            .buscador {
+                margin: 15px 0;
+            }
+
+                .buscador input {
+                    font-size: 16px;
+                    padding: 13px;
+                }
 
             .tabla-contenedor {
                 max-height: 500px;
-            }
-
-            table {
-                min-width: 950px;
-                font-size: 14px;
-            }
-
-            th,
-            td {
-                padding: 8px 10px;
-            }
-        }
-
-        @media (max-width: 700px) {
-
-            main {
-                padding: 10px;
-                margin: 15px auto;
-            }
-
-            .tarjeta {
-                padding: 18px;
-            }
-
-            .buscador input {
-                font-size: 16px;
-                padding: 13px;
+                margin-top: 15px;
+                overflow-x: auto;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             table {
@@ -259,7 +287,20 @@
 
             th,
             td {
-                padding: 9px;
+                padding: 9px 10px;
+            }
+
+            th {
+                position: sticky;
+                top: 0;
+                z-index: 10;
+            }
+
+            .boton-eliminar {
+                width: auto;
+                min-width: 70px;
+                padding: 8px 10px;
+                font-size: 13px;
             }
         }
     </style>
