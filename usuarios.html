@@ -338,23 +338,103 @@
             }
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 15px;
+            }
+
+                header h1 {
+                    font-size: 26px;
+                    margin: 0 0 8px 0;
+                }
+
+                header p {
+                    font-size: 15px;
+                    margin: 0;
+                }
+
+            nav {
+                padding: 8px;
+            }
+
+                nav a {
+                    padding: 10px 12px;
+                    margin: 2px;
+                    font-size: 14px;
+                }
+
+            .contenedor {
+                width: 100%;
+                padding: 0 10px;
+                margin: 15px auto;
+            }
+
+            .titulo-pagina {
+                margin-bottom: 15px;
+            }
+
+                .titulo-pagina h2 {
+                    font-size: 22px;
+                }
+
+                .titulo-pagina p {
+                    line-height: 1.5;
+                    font-size: 14px;
+                }
+
+            .tarjeta {
+                padding: 18px;
+                margin-bottom: 15px;
+            }
+
+                .tarjeta h3 {
+                    font-size: 18px;
+                }
 
             .formulario {
                 grid-template-columns: 1fr;
+                gap: 14px;
             }
 
             .campo-completo {
                 grid-column: auto;
             }
 
-            nav a {
-                padding: 12px 14px;
-                font-size: 14px;
+            .campo input,
+            .campo select {
+                width: 100%;
+                padding: 12px;
+                font-size: 16px;
             }
 
-            .contenedor {
-                padding: 0 10px;
+            .seccion-acceso {
+                margin-top: 20px;
+                padding-top: 18px;
+            }
+
+                .seccion-acceso h4 {
+                    font-size: 17px;
+                }
+
+                .seccion-acceso p {
+                    line-height: 1.5;
+                }
+
+            .botones {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+                .botones button {
+                    width: 100%;
+                    padding: 12px;
+                    font-size: 15px;
+                }
+
+            .buscador input {
+                padding: 13px;
+                font-size: 16px;
             }
         }
     </style>
